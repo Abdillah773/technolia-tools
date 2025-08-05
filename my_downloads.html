@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Center - Abdillah Technolojia</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f1f1f1; margin: 0; padding: 0; }
+    header {
+      background: #007bff; color: white; padding: 20px; text-align: center;
+      font-size: 1.5em; font-weight: bold;
+    }
+    main { max-width: 800px; margin: 30px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h2 { margin-top: 0; color: #007bff; }
+
+    .product-list, .message-form { margin-top: 30px; }
+    .product-item {
+      background: #e9f5ff; margin-bottom: 15px; padding: 15px;
+      border-left: 5px solid #007bff; border-radius: 5px;
+    }
+    .product-name { font-weight: bold; font-size: 1.1em; }
+    .download-link {
+      display: inline-block; margin-top: 10px; background: #28a745; color: white;
+      padding: 10px 20px; border: none; border-radius: 5px; text-decoration: none;
+    }
+    .message-form textarea {
+      width: 100%; padding: 10px; font-size: 1em; border-radius: 5px; border: 1px solid #ccc; resize: vertical;
+    }
+    .message-form button {
+      margin-top: 10px; background: #ffc107; color: black; padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold;
+    }
+    footer {
+      margin-top: 50px; text-align: center; font-size: 0.9em; color: #888;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    🛒 Download Center - Pakua Bidhaa Ulizonunua
+  </header>
+  <main>
+    <section class="product-list">
+      <h2>Bidhaa Zilizolipiwa</h2>
+
+      <div class="product-item">
+        <div class="product-name">Digital Marketing Kit</div>
+        <div>Faili: <strong>marketing-kit.zip</strong></div>
+        <a href="downloads/marketing-kit.zip" class="download-link" download>Pakua Sasa</a>
+      </div>
+
+      <div class="product-item">
+        <div class="product-name">Software Suite X</div>
+        <div>Faili: <strong>suite-x-setup.exe</strong></div>
+        <a href="downloads/suite-x-setup.exe" class="download-link" download>Pakua Sasa</a>
+      </div>
+
+      <div class="product-item">
+        <div class="product-name">Security Essentials PDF</div>
+        <div>Faili: <strong>security-guide.pdf</strong></div>
+        <a href="downloads/security-guide.pdf" class="download-link" download>Pakua Sasa</a>
+      </div>
+    </section>
+
+    <section class="message-form">
+      <h2>Tuma Ujumbe kwa Admin</h2>
+      <p>Kama unahitaji msaada, una swali au hoja yoyote kuhusu bidhaa, tuma ujumbe hapa chini:</p>
+      <textarea rows="5" id="user-message" placeholder="Andika ujumbe wako hapa..."></textarea>
+      <button onclick="sendMessage()">Tuma Ujumbe</button>
+      <p id="confirm-message" style="color:green; font-weight:bold;"></p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Abdillah Technolojia | Mteja Kwanza Daima
+  </footer>
+
+  <script>
+    function sendMessage() {
+      const msg = document.getElementById('user-message').value.trim();
+      if (!msg) {
+        alert('Tafadhali andika ujumbe kwanza.');
+        return;
+      }
+      // Simulate message saving (you can extend this with backend or localStorage)
+      console.log("Ujumbe umetumwa kwa admin:", msg);
+      document.getElementById('confirm-message').textContent = "✅ Ujumbe umetumwa kwa mafanikio! Tutakujibu hivi karibuni.";
+      document.getElementById('user-message').value = "";
+    }
+  </script>
+</body>
+</html>
