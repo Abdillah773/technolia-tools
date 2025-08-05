@@ -1,0 +1,86 @@
+<!-- File: diagnoser.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Computer Diagnoser Pro</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; padding: 0; }
+    header {
+      background-color: #6200ea; color: white; padding: 20px;
+      text-align: center; font-size: 1.8em; font-weight: bold;
+    }
+    main {
+      max-width: 700px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    textarea {
+      width: 100%; height: 100px; padding: 10px; font-size: 1em;
+      border-radius: 5px; border: 1px solid #ccc; margin-bottom: 15px;
+    }
+    button {
+      background: #6200ea; color: white; border: none; padding: 10px 20px; font-size: 1em; border-radius: 5px; cursor: pointer;
+    }
+    button:hover { background: #4b00b3; }
+    .result {
+      margin-top: 20px; padding: 15px; background: #e0f7fa; border-left: 5px solid #00acc1; font-size: 1.1em;
+    }
+    .info { font-size: 0.9em; color: #777; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <header>
+    Computer Diagnoser Pro
+  </header>
+  <main>
+    <p>Ingiza maelezo mafupi ya tatizo kwenye kompyuta yako hapa chini (mfano: "kompyuta inawaka lakini haioneshi kitu chochote")</p>
+    <textarea id="userIssue" placeholder="Elezea tatizo la kompyuta yako..."></textarea>
+    <button onclick="diagnoseIssue()">Chambua Tatizo</button>
+    <div class="result" id="diagnosisResult"></div>
+    <div class="info">* Programu hii hutoa ushauri wa kitaalamu kwa tatizo linaloelezwa na mtumiaji.</div>
+  </main>
+
+  <script>
+    function diagnoseIssue() {
+      const issue = document.getElementById("userIssue").value.toLowerCase();
+      const resultDiv = document.getElementById("diagnosisResult");
+
+      let response = "Samahani, hatujapata taarifa za kutosha. Tafadhali toa maelezo zaidi.";
+
+      if (issue.includes("inawaka") && issue.includes("haioneshi")) {
+        response = `Tatizo linaweza kuwa:
+        - RAM imelegea au imeharibika
+        - Kadi ya graphics haijakaa sawa
+        - Monitor haijachomekwa au imeharibika
+        
+Suluhisho:
+- Fungua casing na hakikisha RAM imekakaa vizuri
+- Angalia wiring ya monitor
+- Jaribu kuchomeka kwenye monitor nyingine au laptop.`;
+      } else if (issue.includes("slow") || issue.includes("polepole")) {
+        response = `Kompyuta yako ni polepole kwa sababu hizi:
+        - Programu nyingi zinafunguliwa mwanzo wa Windows
+        - Hard disk ina matatizo
+        - Mfumo wa uendeshaji una virus
+
+Suluhisho:
+- Funga programu usizozitumia kwa kutumia Task Manager
+- Tumia antivirus safi kama Kaspersky au Windows Defender
+- Angalia hali ya Hard Drive kwa kutumia CrystalDiskInfo.`;
+      } else if (issue.includes("heat") || issue.includes("joto")) {
+        response = `Joto kupita kiasi linaweza kuwa:
+        - Fan imejaa vumbi au imeharibika
+        - Thermal paste imekauka
+        - Kompyuta inatumika kwa muda mrefu bila kupumzika
+
+Suluhisho:
+- Safisha fan kwa brush au blower
+- Badilisha thermal paste kwenye processor
+- Tumia cooling pad au hakikisha hewa inazunguka vizuri.`;
+      }
+
+      resultDiv.textContent = response;
+    }
+  </script>
+</body>
+</html>
