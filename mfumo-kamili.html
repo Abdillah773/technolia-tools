@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mfumo Kamili wa Akaunti, Bidhaa, Manunuzi, Admin</title>
+<style>
+  /* --- Reset and body --- */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; padding: 0;
+    background: #f9f9f9;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* Sidebar settings menu - upande wa kulia */
+  #settingsMenu {
+    position: fixed;
+    right: 0; top: 0;
+    width: 260px;
+    height: 100vh;
+    background-color: #34495e;
+    color: white;
+    padding: 25px 15px;
+    overflow-y: auto;
+    box-shadow: -3px 0 5px rgba(0,0,0,0.1);
+    user-select: none;
+  }
+  #settingsMenu h2 {
+    margin-top: 0;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  #settingsMenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  #settingsMenu ul li {
+    padding: 12px 18px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  #settingsMenu ul li:hover {
+    background-color: #2c3e50;
+  }
+  #settingsMenu ul li.disabled {
+    cursor: not-allowed;
+    color: #7f8c8d;
+  }
+
+  /* Main content area */
+  #mainContent {
+    flex: 1;
+    padding: 30px 40px 30px 40px;
+    margin-right: 260px; /* same as sidebar width */
+    overflow-y: auto;
+    min-height: 100vh;
+  }
+
+  /* Form styling */
+  form {
+    background: white;
+    padding: 25px 25px;
+    border-radius: 8px;
+    max-width: 520px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+  }
+  form h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 22px;
+  }
+  form input, form select {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: border-color 0.3s ease;
+  }
+  form input:focus, form select:focus {
+    border-color: #2980b9;
+    outline: none;
+  }
+  form button {
+    background-color: #2980b9;
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+  }
+  form button:hover {
+    background-color: #3498db;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: white;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  th, td {
+    padding: 14px 20px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+  th {
+    background-color: #2980b9;
+    color: white;
+    font-weight: 700;
+  }
+  tr:hover {
+    background-color: #f1f8ff;
+  }
+
+  /* Buttons inside tables */
+  .btn-small {
+    padding: 5px 12px;
+    font-size: 13px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .btn-edit {
+    background-color: #27ae60;
+    color: white;
+  }
+  .btn-delete {
+    background-color: #e74c3c;
+    color: white;
+  }
+  .btn-buy {
+    background-color: #2980b9;
+    color: white;
+  }
+  .btn-disabled {
+    background-color: #7f8c8d;
+    cursor: not-allowed;
+  }
+
+  /* Alerts */
+  #alert {
+    max-width: 520px;
+    margin-bottom: 20px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    display: none;
+    font-weight: 600;
+  }
+  #alert.success {
+    background-color: #27ae60;
+    color: white;
+  }
+  #alert.error {
+    background-color: #e74c3c;
+    color: white;
+  }
+  #alert.info {
+    background-color: #2980b9;
+    color: white;
+  }
+
+  /* Cart Modal */
+  #cartModal {
+    display: none; 
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  #cartModal .modal-content {
+    background: white;
+    border-radius: 10px;
+    padding: 30px 30px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+  #cartModal h3 {
+    margin-top: 0;
+  }
+  #cartModal table {
+    margin-top: 10px;
+  }
+  #cartModal .close-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    font-weight: 700;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    float: right;
+  }
+  #cartModal button.checkout-btn {
+    background: #27ae60;
+    color: white;
+    font-weight: 700;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+  #cartModal button.checkout-btn:hover {
+    background: #2ecc71;
+  }
+
+  /* Responsive */
+  @media(max-width: 768px) {
+    #settingsMenu {
+      width: 200px;
+    }
+    #mainContent {
+      margin-right: 200px;
+      padding: 20px 25px;
+    }
+    form, #alert {
+      max-width: 100%;
+    }
+  }
+  @media(max-width: 480px) {
+    body {
+      flex-direction: column;
+    }
+    #settingsMenu {
+      position: relative;
+      width: 100%;
+      height: auto;
+      box-shadow: none;
+      padding: 15px 10px;
+    }
+    #mainContent {
+      margin-right: 0;
+      padding: 15px 15px 40px 15px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="settingsMenu">
+  <h2>Menyu ya Settings</h2>
+  <ul id="menuList">
+    <li onclick="showSection('signup')">Fungua Akaunti (Signup)</li>
+    <li onclick="showSection('login')">Ingia (Login)</li>
+    <li onclick="logout()">Toka (Logout)</li>
+    <li onclick="showSection('products')">Bidhaa na Manunuzi</li>
+    <li onclick="showSection('admin')">Mamlaka za Admin</li>
+    <li onclick="showSection('cart')">Gura Ununue (Cart) <span id="cartCount" style="background:#e74c3c; padding: 2px 8px; border-radius: 12px; font-size: 12px; margin-left: 8px; display:none;">0</span></li>
+  </ul>
+</div>
+
+<div id="mainContent">
+
+  <div id="alert"></div>
+
+  <!-- Signup -->
+  <section id="signup" style="display:none;">
+    <form id="signupForm">
+      <h3>Fungua Akaunti Mpya</h3>
+      <input type="text" id="signupUsername" placeholder="Jina la mtumiaji" required />
+      <input type="password" id="signupPassword" placeholder="Nenosiri" required />
+      <select id="signupRole" required>
+        <option value="">Chagua Jukumu</option>
+        <option value="user">Mteja</option>
+        <option value="admin">Admin</option>
+      </select>
+      <button type="submit">Jisajili</button>
+    </form>
+  </section>
+
+  <!-- Login -->
+  <section id="login" style="display:none;">
+    <form id="loginForm">
+      <h3>Ingia Kwenye Akaunti</h3>
+      <input type="text" id="loginUsername" placeholder="Jina la mtumiaji" required />
+      <input type="password" id="loginPassword" placeholder="Nenosiri" required />
+      <button type="submit">Ingia</button>
+    </form>
+  </section>
+
+  <!-- Products and Purchases -->
+  <section id="products" style="display:none;">
+    <h3>Bidhaa na Manunuzi</h3>
+    <div style="margin-bottom: 15px;">
+      <button onclick="toggleAddProductForm()" id="btnToggleAddProduct" style="display:none;">Ongeza Bidhaa Mpya</button>
+      <button onclick="showCartModal()" id="btnShowCart" style="background:#27ae60; color:#fff; font-weight:700; border:none; border-radius:6px; padding:10px 16px; cursor:pointer;">Angalia Gura Ununue</button>
+    </div>
+
+    <div id="addProductForm" style="display:none; margin-bottom: 25px;">
+      <form id="productForm">
+        <input type="text" id="productName" placeholder="Jina la bidhaa" required />
+        <input type="number" id="productPrice" placeholder="Bei (Tsh)" required min="0" />
+        <button type="submit">Hifadhi Bidhaa</button>
+      </form>
+    </div>
+
+    <table id="productsTable" aria-label="Orodha ya bidhaa">
+      <thead>
+        <tr>
+          <th>Jina la Bidhaa</th>
+          <th>Bei (Tsh)</th>
+          <th>Kitendo</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- Admin Section -->
+  <section id="admin" style="display:none;">
+    <h3>Mamlaka za Admin</h3>
+    <p>Sehemu hii ni kwa watumiaji wa aina ya Admin pekee.</p>
+    <div>
+      <h4>Akaunti za Watumiaji</h4>
+      <table id="usersTable" aria-label="Orodha ya watumiaji">
+        <thead><tr><th>Jina la Mtumiaji</th><th>Jukumu</th><th>Vitendo</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<!-- Cart Modal -->
+<div id="cartModal">
+  <div class="modal-content">
+    <button class="close-btn" onclick="closeCartModal()">X Funga</button>
+    <h3>Gura Ununue (Cart)</h3>
+    <table id="cartTable" aria-label="Orodha ya bidhaa kwenye gura ununue">
+      <thead>
+        <tr><th>Bidhaa</th><th>Bei (Tsh)</th><th>Kiasi</th><th>Jumla</th><th>Vitendo</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <p style="font-weight:700; font-size:18px; margin-top: 15px;">Jumla ya malipo: Tsh <span id="cartTotal">0</span></p>
+    <button class="checkout-btn" onclick="checkout()">Maliza Ununuzi</button>
+  </div>
+</div>
+
+<script>
+  // --- DATA Storage ---
+  let users = JSON.parse(localStorage.getItem('users') || '[]');
+  let products = JSON.parse(localStorage.getItem('products') || '[]');
+  let loggedInUser = JSON.parse(localStorage.getItem('loggedInUser') || 'null');
+  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+  // --- ELEMENTS ---
+  const alertBox = document.getElementById('alert');
+  const sections = ['signup', 'login', 'products', 'admin'];
+  const menuList = document.getElementById('menuList');
+  const cartCount = document.getElementById('cartCount');
+
+  // --- UTILITIES ---
+
+  function showAlert(message, type='success') {
+    alertBox.textContent = message;
+    alertBox.className = '';
+    alertBox.classList.add(type);
+    alertBox.style.display = 'block';
+    setTimeout(() => alertBox.style.display = 'none', 3500);
+  }
+
+  function saveData() {
+    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('products', JSON.stringify(products));
+    localStorage.setItem('cart', JSON.stringify(cart));
+    if(loggedInUser) localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+    else localStorage.removeItem('loggedInUser');
+  }
+
+  // --- UI Handling ---
+
+  function showSection(section) {
+    if (!sections.includes(section)) return;
+
+    // Permission check for admin section
+    if(section === 'admin' && (!loggedInUser || loggedInUser.role !== 'admin')) {
+      showAlert('Huna ruhusa ya kuona sehemu hii.', 'error');
+      return;
+    }
+    // Permission check: if not logged in, block some sections
+    if(!loggedInUser && section !== 'signup' && section !== 'login') {
+      showAlert('Tafadhali ingia kwanza.', 'error');
+      return;
+    }
+
+    // Hide all sections
+    sections.forEach(s => {
+      document.getElementById(s).style.display = 'none';
+    });
+    // Show requested
+    document.getElementById(section).style.display = 'block';
+
+    if(section === 'products') {
+      refreshProductsTable();
+      toggleAddProductVisibility();
+      updateCartCount();
+    }
+    if(section === 'admin') {
+      refreshUsersTable();
+    }
+    updateMenu();
+  }
+
+  function updateMenu() {
+    const lis = menuList.querySelectorAll('li');
+    lis.forEach(li => {
+      li.classList.remove('disabled');
+    });
+    if(!loggedInUser) {
+      // disable logout, products, admin, cart
+      disableMenuItems(['logout', 'products', 'admin', 'cart']);
+    } else {
+      if(loggedInUser.role !== 'admin') {
+        // disable admin menu item
+        disableMenuItems(['admin']);
+      }
+    }
+  }
+
+  function disableMenuItems(items) {
+    // items possible: 'logout', 'products', 'admin', 'cart', 'login', 'signup'
+    items.forEach(item => {
+      let textToMatch = '';
+      switch(item) {
+        case 'logout': textToMatch = 'Toka (Logout)'; break;
+        case 'products': textToMatch = 'Bidhaa na Manunuzi'; break;
+        case 'admin': textToMatch = 'Mamlaka za Admin'; break;
+        case 'cart': textToMatch = 'Gura Ununue (Cart)'; break;
+        case 'login': textToMatch = 'Ingia (Login)'; break;
+        case 'signup': textToMatch = 'Fungua Akaunti (Signup)'; break;
+      }
+      for(let li of menuList.children) {
+        if(li.textContent.includes(textToMatch)) {
+          li.classList.add('disabled');
+        }
+      }
+    });
+  }
+
+  // --- Signup ---
+  document.getElementById('signupForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const username = document.getElementById('signupUsername').value.trim();
+    const password = document.getElementById('signupPassword').value.trim();
+    const role = document.getElementById('signupRole').value;
+
+    if(users.find(u => u.username.toLowerCase() === username.toLowerCase())) {
+      showAlert('Jina la mtumiaji tayari limechukuliwa.', 'error');
+      return;
+    }
+    if(role !== 'user' && role !== 'admin') {
+      showAlert('Tafadhali chagua jukumu sahihi.', 'error');
+      return;
+    }
+
+    users.push({username, password, role});
+    saveData();
+    showAlert('Umejisajili kwa mafanikio
+<!-- MWISHO WA CODE: Endelezo na kufunga script, body na html -->
+
+    }); // mwisho wa signupForm submit
+
+    // --- Login ---
+    document.getElementById('loginForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+
+      const user = users.find(u => u.username === username && u.password === password);
+      if(!user) {
+        showAlert('Jina au nenosiri si sahihi.', 'error');
+        return;
+      }
+
+      loggedInUser = user;
+      saveData();
+      showAlert('Umeingia kwa mafanikio', 'success');
+      showSection('products');
+    });
+
+    function logout() {
+      loggedInUser = null;
+      saveData();
+      showAlert('Umetoka kwenye akaunti.', 'info');
+      showSection('login');
+    }
+
+    function refreshProductsTable() {
+      const tbody = document.querySelector('#productsTable tbody');
+      tbody.innerHTML = '';
+      products.forEach((product, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${product.name}</td>
+          <td>${product.price}</td>
+          <td>
+            <button class="btn-small btn-buy" onclick="addToCart(${index})">Nunua</button>
+          </td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function toggleAddProductVisibility() {
+      const isAdmin = loggedInUser && loggedInUser.role === 'admin';
+      document.getElementById('btnToggleAddProduct').style.display = isAdmin ? 'inline-block' : 'none';
+      document.getElementById('addProductForm').style.display = 'none';
+    }
+
+    function toggleAddProductForm() {
+      const form = document.getElementById('addProductForm');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    document.getElementById('productForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = document.getElementById('productName').value.trim();
+      const price = parseFloat(document.getElementById('productPrice').value);
+
+      if(!name || price <= 0) {
+        showAlert('Jaza jina na bei halali.', 'error');
+        return;
+      }
+      products.push({ name, price });
+      saveData();
+      refreshProductsTable();
+      showAlert('Bidhaa imeongezwa.', 'success');
+      document.getElementById('productForm').reset();
+      toggleAddProductForm();
+    });
+
+    function refreshUsersTable() {
+      const tbody = document.querySelector('#usersTable tbody');
+      tbody.innerHTML = '';
+      users.forEach((user, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${user.username}</td>
+          <td>${user.role}</td>
+          <td>
+            <button class="btn-small btn-delete" onclick="deleteUser(${index})">Futa</button>
+          </td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function deleteUser(index) {
+      if(confirm('Una uhakika unataka kufuta mtumiaji huyu?')) {
+        users.splice(index, 1);
+        saveData();
+        refreshUsersTable();
+        showAlert('Mtumiaji amefutwa.', 'info');
+      }
+    }
+
+    function addToCart(index) {
+      const product = products[index];
+      const item = cart.find(p => p.name === product.name);
+      if(item) {
+        item.quantity++;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+      saveData();
+      updateCartCount();
+      showAlert('Imewekwa kwenye gura ununue.','success');
+    }
+
+    function updateCartCount() {
+      cartCount.textContent = cart.length;
+      cartCount.style.display = cart.length ? 'inline-block' : 'none';
+    }
+
+    function showCartModal() {
+      const modal = document.getElementById('cartModal');
+      const tbody = document.querySelector('#cartTable tbody');
+      const totalDisplay = document.getElementById('cartTotal');
+      tbody.innerHTML = '';
+      let total = 0;
+
+      cart.forEach((item, i) => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.price}</td>
+          <td>${item.quantity}</td>
+          <td>${subtotal}</td>
+          <td><button class="btn-small btn-delete" onclick="removeFromCart(${i})">Ondoa</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+      totalDisplay.textContent = total;
+      modal.style.display = 'flex';
+    }
+
+    function closeCartModal() {
+      document.getElementById('cartModal').style.display = 'none';
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      saveData();
+      showCartModal();
+    }
+
+    function checkout() {
+      if(cart.length === 0) {
+        showAlert('Hakuna bidhaa kwenye gura ununue.', 'error');
+        return;
+      }
+      cart = [];
+      saveData();
+      closeCartModal();
+      updateCartCount();
+      showAlert('Umenunua bidhaa zako kwa mafanikio!', 'success');
+    }
+
+    // On page load
+    window.onload = function() {
+      if(loggedInUser) showSection('products');
+      else showSection('signup');
+      updateCartCount();
+    }
+  </script>
+
+</body>
+</html>
