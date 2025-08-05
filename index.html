@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Abdillah Technojia Tools Store</title>
   <style>
-    /* Reset & Basic Styling */
     body {
       font-family: Arial, sans-serif;
       margin: 0; padding: 0;
@@ -20,8 +19,21 @@
       font-size: 2em;
       font-weight: bold;
     }
+    .auth {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background: #e3f2fd;
+    }
+    .auth input {
+      padding: 5px;
+      margin-right: 5px;
+    }
+    .auth button {
+      padding: 5px 10px;
+    }
     main {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 20px auto;
       background: white;
       padding: 20px;
@@ -85,8 +97,7 @@
     button.add-to-cart:hover {
       background: #005fa3;
     }
-    /* Cart styles */
-    #cart {
+    #cart, #admin-panel {
       position: fixed;
       top: 60px;
       right: 10px;
@@ -102,7 +113,7 @@
       flex-direction: column;
       z-index: 1000;
     }
-    #cart h2 {
+    #cart h2, #admin-panel h2 {
       margin-top: 0;
       font-size: 1.2em;
       text-align: center;
@@ -115,12 +126,8 @@
       margin-bottom: 10px;
       align-items: center;
     }
-    .cart-item-name {
-      flex: 1;
-    }
-    .cart-item-qty {
-      margin: 0 10px;
-    }
+    .cart-item-name { flex: 1; }
+    .cart-item-qty { margin: 0 10px; }
     .cart-item-price {
       font-weight: bold;
       color: #007acc;
@@ -151,14 +158,10 @@
       margin-top: 15px;
       transition: background 0.3s ease;
     }
-    #checkout-btn:hover {
-      background: #1e7e34;
-    }
-    /* Cart Toggle Button */
-    #cart-toggle {
+    #checkout-btn:hover { background: #1e7e34; }
+    #cart-toggle, #admin-toggle {
       position: fixed;
       top: 10px;
-      right: 10px;
       background: #007acc;
       color: white;
       border: none;
@@ -169,14 +172,25 @@
       z-index: 1001;
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
+    #cart-toggle { right: 10px; }
+    #admin-toggle { left: 10px; }
   </style>
 </head>
 <body>
-
   <header>
     Abdillah Technojia Tools Store
   </header>
 
+  <div class="auth">
+    <div>
+      <input id="username" placeholder="Jina lako" />
+      <input id="password" type="password" placeholder="Nenosiri" />
+      <button onclick="loginUser()">Ingia</button>
+      <button onclick="signupUser()">Jisajili</button>
+    </div>
+  </div>
+
+  <button id="admin-toggle" onclick="toggleAdmin()">Admin</button>
   <button id="cart-toggle">Duka (0)</button>
 
   <div id="cart">
@@ -186,57 +200,68 @@
     <button id="checkout-btn">Lipia (Fake Payment)</button>
   </div>
 
+  <div id="admin-panel">
+    <h2>Ongeza Bidhaa</h2>
+    <input id="new-name" placeholder="Jina la bidhaa" />
+    <input id="new-desc" placeholder="Maelezo" />
+    <input id="new-price" type="number" placeholder="Bei" />
+    <input id="new-img" placeholder="Image URL (mf. images/tool1.jpeg)" />
+    <button onclick="addTool()">Ongeza</button>
+  </div>
+
   <main>
-    <div class="tools-grid" id="tools-grid">
-      <!-- Tools zitaongezwa hapa kwa JavaScript -->
-    </div>
+    <div class="tools-grid" id="tools-grid"></div>
   </main>
 
   <script>
-    // Hapa ni orodha ya tools (bidhaa) zetu za Technolia
-    const tools = [
-      {
-        id: 1,
-        name: "Tech Tool Pro",
-        desc: "Chombo cha hali ya juu kwa wataalamu wa teknolojia.",
-        price: 25000,
-        img: "https://via.placeholder.com/200x150?text=Tech+Tool+Pro"
-      },
-      {
-        id: 2,
-        name: "Software Suite X",
-        desc: "Pakia zote za softwares muhimu kwa biashara yako.",
-        price: 40000,
-        img: "https://via.placeholder.com/200x150?text=Software+Suite+X"
-      },
-      {
-        id: 3,
-        name: "Digital Marketing Kit",
-        desc: "Zana za uuzaji mtandaoni kwa mafanikio makubwa.",
-        price: 30000,
-        img: "https://via.placeholder.com/200x150?text=Digital+Marketing+Kit"
-      },
-      {
-        id: 4,
-        name: "Security Essentials",
-        desc: "Zana za usalama kwa mifumo yako ya kompyuta.",
-        price: 22000,
-        img: "https://via.placeholder.com/200x150?text=Security+Essentials"
-      }
+    let tools = [
+      { id: 1, name: "Tech Tool Pro", desc: "Chombo cha hali ya juu kwa wataalamu wa teknolojia.", price: 25000, img: "images/tool5.jpeg" },
+      { id: 2, name: "Software Suite X", desc: "Pakia zote za softwares muhimu kwa biashara yako.", price: 40000, img: "images/tool2.jpeg" },
+      { id: 3, name: "Digital Marketing Kit", desc: "Zana za uuzaji mtandaoni kwa mafanikio makubwa.", price: 30000, img: "images/tool3.jpeg" },
+      { id: 4, name: "Security Essentials", desc: "Zana za usalama kwa mifumo yako ya kompyuta.", price: 22000, img: "images/tool6.png" }
     ];
 
-    // Kikapu cha kununua (cart) kama object
     let cart = {};
 
-    // Funtion kuonyesha tools kwenye ukurasa
-    function showTools() {
-      const toolsGrid = document.getElementById('tools-grid');
-      toolsGrid.innerHTML = ''; // Safisha awali
+    function signupUser() {
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+      localStorage.setItem(u, p);
+      alert('Usajili umefanikiwa');
+    }
 
+    function loginUser() {
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+      const saved = localStorage.getItem(u);
+      if(saved && saved === p) {
+        alert('Karibu ' + u);
+      } else {
+        alert('Taarifa sio sahihi');
+      }
+    }
+
+    function toggleAdmin() {
+      const panel = document.getElementById('admin-panel');
+      panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function addTool() {
+      const name = document.getElementById('new-name').value;
+      const desc = document.getElementById('new-desc').value;
+      const price = parseInt(document.getElementById('new-price').value);
+      const img = document.getElementById('new-img').value;
+      const id = tools.length + 1;
+      tools.push({ id, name, desc, price, img });
+      showTools();
+    }
+
+    function showTools() {
+      const grid = document.getElementById('tools-grid');
+      grid.innerHTML = '';
       tools.forEach(tool => {
         const card = document.createElement('div');
         card.className = 'tool-card';
-
         card.innerHTML = `
           <img src="${tool.img}" alt="${tool.name}" />
           <div class="tool-name">${tool.name}</div>
@@ -244,73 +269,31 @@
           <div class="tool-price">Tsh ${tool.price.toLocaleString()}</div>
           <button class="add-to-cart" data-id="${tool.id}">Ongeza Kikapu</button>
         `;
-
-        toolsGrid.appendChild(card);
+        grid.appendChild(card);
       });
 
-      // Ongeza event listeners kwa button za kuongeza kikapu
-      const buttons = document.querySelectorAll('.add-to-cart');
-      buttons.forEach(btn => {
-        btn.addEventListener('click', e => {
-          const id = parseInt(e.target.getAttribute('data-id'));
-          addToCart(id);
-        });
+      document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.onclick = () => addToCart(parseInt(btn.getAttribute('data-id')));
       });
     }
 
-    // Ongeza tool kwenye cart
     function addToCart(id) {
-      if (cart[id]) {
-        cart[id].qty++;
-      } else {
-        const tool = tools.find(t => t.id === id);
-        if(tool) {
-          cart[id] = {
-            ...tool,
-            qty: 1
-          };
-        }
-      }
+      const item = tools.find(t => t.id === id);
+      if (!item) return;
+      cart[id] = cart[id] ? { ...item, qty: cart[id].qty + 1 } : { ...item, qty: 1 };
       updateCartUI();
     }
 
-    // Ondoa tool kutoka cart
-    function removeFromCart(id) {
-      if (cart[id]) {
-        delete cart[id];
-        updateCartUI();
-      }
-    }
-
-    // Ongeza au punguza qty kwenye cart
-    function changeQty(id, delta) {
-      if (cart[id]) {
-        cart[id].qty += delta;
-        if(cart[id].qty <= 0) {
-          removeFromCart(id);
-        } else {
-          updateCartUI();
-        }
-      }
-    }
-
-    // Onyesha data ya cart kwenye UI
     function updateCartUI() {
-      const cartItemsDiv = document.getElementById('cart-items');
-      const cartToggleBtn = document.getElementById('cart-toggle');
-      cartItemsDiv.innerHTML = '';
-
-      let total = 0;
-      let totalItems = 0;
-
+      const cartDiv = document.getElementById('cart-items');
+      cartDiv.innerHTML = '';
+      let total = 0, totalItems = 0;
       Object.values(cart).forEach(item => {
         total += item.price * item.qty;
         totalItems += item.qty;
-
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'cart-item';
-
-        itemDiv.innerHTML = `
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
           <div class="cart-item-name">${item.name}</div>
           <div>
             <button onclick="changeQty(${item.id}, -1)">-</button>
@@ -318,50 +301,44 @@
             <button onclick="changeQty(${item.id}, 1)">+</button>
             <button class="remove-item" onclick="removeFromCart(${item.id})">x</button>
           </div>
-          <div class="cart-item-price">Tsh ${ (item.price * item.qty).toLocaleString() }</div>
+          <div class="cart-item-price">Tsh ${(item.price * item.qty).toLocaleString()}</div>
         `;
-
-        cartItemsDiv.appendChild(itemDiv);
+        cartDiv.appendChild(div);
       });
-
-      cartToggleBtn.textContent = `Duka (${totalItems})`;
       document.getElementById('cart-total').textContent = `Jumla: Tsh ${total.toLocaleString()}`;
+      document.getElementById('cart-toggle').textContent = `Duka (${totalItems})`;
+    }
 
-      // Onyesha au ficha cart kulingana na vitu vilivyo ndani
-      if(totalItems > 0){
-        document.getElementById('checkout-btn').disabled = false;
-      } else {
-        document.getElementById('checkout-btn').disabled = true;
+    function changeQty(id, delta) {
+      if (cart[id]) {
+        cart[id].qty += delta;
+        if (cart[id].qty <= 0) delete cart[id];
+        updateCartUI();
       }
     }
 
-    // Fungua/Ficha cart popup
-    document.getElementById('cart-toggle').addEventListener('click', () => {
-      const cartDiv = document.getElementById('cart');
-      if(cartDiv.style.display === 'flex'){
-        cartDiv.style.display = 'none';
-      } else {
-        cartDiv.style.display = 'flex';
-      }
-    });
+    function removeFromCart(id) {
+      delete cart[id];
+      updateCartUI();
+    }
 
-    // Checkout - Fake Payment
-    document.getElementById('checkout-btn').addEventListener('click', () => {
-      if(Object.keys(cart).length === 0){
+    document.getElementById('cart-toggle').onclick = () => {
+      const c = document.getElementById('cart');
+      c.style.display = c.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    document.getElementById('checkout-btn').onclick = () => {
+      if (Object.keys(cart).length === 0) {
         alert('Kikapu chako ni tupu!');
         return;
       }
-      alert('Asante kwa kununua kutoka Technolia Tools Store!\n\nHii ni malipo ya majaribio.');
-      cart = {}; // Safisha cart
+      alert('Malipo ya majaribio yamekamilika!');
+      cart = {};
       updateCartUI();
       document.getElementById('cart').style.display = 'none';
-    });
+    }
 
-    // Ongeza tools kwanza tunapo load page
     showTools();
-    updateCartUI();
-
   </script>
-
 </body>
 </html>
