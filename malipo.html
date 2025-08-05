@@ -1,0 +1,190 @@
+<!-- Hii ni toleo kamili la duka la mtandaoni (malipo halisi + dashboard) -->
+<!-- Save kama: index.html -->
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Duka Halisi - Abdillah Tech Tools</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Abdillah Tech Tools Store</h1>
+  </header>
+
+  <nav class="nav">
+    <button onclick="toggleView('shop')">🛒 Duka</button>
+    <button onclick="toggleView('admin')">⚙️ Admin Dashboard</button>
+  </nav>
+
+  <main>
+    <!-- Duka -->
+    <section id="shop" class="view-section">
+      <h2>Bidhaa Zetu</h2>
+      <div id="tools-grid" class="tools-grid"></div>
+      <div id="cart">
+        <h3>Kikapu</h3>
+        <div id="cart-items"></div>
+        <div id="cart-total">Jumla: Tsh 0</div>
+        <button onclick="checkout()">💳 Lipia Sasa</button>
+      </div>
+      <div id="payment-info" class="payment-box">
+        <h4>Lipa kwa namba:</h4>
+        <p>Halopesa: <strong>0628630399</strong></p>
+        <p>Halopesa: <strong>0624830398</strong></p>
+        <p><em>Akaunti nyingine zitaongezwa...</em></p>
+      </div>
+    </section>
+
+    <!-- Admin -->
+    <section id="admin" class="view-section hidden">
+      <h2>Dashboard ya Admin</h2>
+      <input id="new-name" placeholder="Jina la bidhaa">
+      <input id="new-desc" placeholder="Maelezo">
+      <input id="new-price" type="number" placeholder="Bei">
+      <input id="new-img" placeholder="Mf. images/tool5.jpeg">
+      <button onclick="addTool()">Ongeza Bidhaa</button>
+    </section>
+  </main>
+
+  <script>
+    let tools = [
+      { id: 1, name: "Tech Tool Pro", desc: "Chombo cha wataalamu.", price: 25000, img: "images/tool5.jpeg" },
+      { id: 2, name: "Software Suite X", desc: "Software muhimu kwa biashara yako.", price: 40000, img: "images/tool2.jpeg" },
+      { id: 3, name: "Marketing Kit", desc: "Zana za matangazo.", price: 30000, img: "images/tool3.jpeg" },
+      { id: 4, name: "Security Essentials", desc: "Usalama wa mfumo wako.", price: 22000, img: "images/tool6.png" }
+    ];
+
+    let cart = {};
+
+    function showTools() {
+      const grid = document.getElementById('tools-grid');
+      grid.innerHTML = '';
+      tools.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'tool-card';
+        card.innerHTML = `
+          <img src="${t.img}" alt="${t.name}" />
+          <h4>${t.name}</h4>
+          <p>${t.desc}</p>
+          <strong>Tsh ${t.price}</strong><br>
+          <button onclick="addToCart(${t.id})">Ongeza Kikapu</button>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function addToCart(id) {
+      const tool = tools.find(t => t.id === id);
+      if (!tool) return;
+      cart[id] = cart[id] ? { ...tool, qty: cart[id].qty + 1 } : { ...tool, qty: 1 };
+      updateCart();
+    }
+
+    function updateCart() {
+      const container = document.getElementById('cart-items');
+      container.innerHTML = '';
+      let total = 0;
+      for (let id in cart) {
+        const item = cart[id];
+        total += item.price * item.qty;
+        const div = document.createElement('div');
+        div.innerHTML = `${item.name} x${item.qty} = Tsh ${(item.price * item.qty).toLocaleString()}`;
+        container.appendChild(div);
+      }
+      document.getElementById('cart-total').innerText = `Jumla: Tsh ${total.toLocaleString()}`;
+    }
+
+    function checkout() {
+      if (Object.keys(cart).length === 0) {
+        alert('Kikapu chako ni tupu.');
+        return;
+      }
+      alert("Tafadhali tuma malipo kwa namba iliyoorodheshwa kisha thibitisha kwa admin.");
+    }
+
+    function toggleView(view) {
+      document.querySelectorAll('.view-section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(view).classList.remove('hidden');
+    }
+
+    function addTool() {
+      const name = document.getElementById('new-name').value;
+      const desc = document.getElementById('new-desc').value;
+      const price = parseInt(document.getElementById('new-price').value);
+      const img = document.getElementById('new-img').value;
+      const id = tools.length + 1;
+      tools.push({ id, name, desc, price, img });
+      showTools();
+    }
+
+    showTools();
+  </script>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #007acc;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    nav {
+      background: #e0e0e0;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    main { padding: 20px; }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+    }
+    .tool-card {
+      background: white;
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .tool-card img {
+      max-width: 100%;
+      height: 150px;
+      object-fit: contain;
+    }
+    #cart, #payment-info {
+      margin-top: 30px;
+      background: white;
+      padding: 15px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .hidden { display: none; }
+    input {
+      display: block;
+      margin: 10px 0;
+      padding: 8px;
+      width: 100%;
+      max-width: 400px;
+    }
+    button {
+      padding: 8px 16px;
+      background: #007acc;
+      border: none;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover { background: #005f9e; }
+  </style>
+</body>
+</html>
