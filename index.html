@@ -177,9 +177,7 @@
   </style>
 </head>
 <body>
-  <header>
-    Abdillah Technojia Tools Store
-  </header>
+  <header>Abdillah Technojia Tools Store</header>
 
   <div class="auth">
     <div>
@@ -209,39 +207,37 @@
     <button onclick="addTool()">Ongeza</button>
   </div>
 
-   <main>
-  <div class="tools-grid" id="tools-grid"></div>
+  <main>
+    <div class="tools-grid" id="tools-grid"></div>
 
-  <!-- Button ya Malipo Halisi -->
-  <a href="malipo.html">
-    <button style="margin: 30px auto; display: block; padding: 12px 25px; background: green; color: white; border: none; border-radius: 5px; font-size: 1em; cursor: pointer;">
-      Nenda Kwenye Malipo Halisi
-    </button>
-  </a>
+    <!-- Buttons za pages zingine -->
+    <a href="malipo.html">
+      <button style="margin: 30px auto; display: block; padding: 12px 25px; background: green; color: white; border: none; border-radius: 5px; font-size: 1em; cursor: pointer;">
+        Nenda Kwenye Malipo Halisi
+      </button>
+    </a>
 
-  <!-- Button ya Website Analyzer Pro -->
-  <a href="analyzer.html">
-    <button style="margin: 20px auto; display: block; padding: 12px 25px; background: #6f42c1; color: white; border: none; border-radius: 5px; font-size: 1em; cursor: pointer;">
-      Fungua Website Analyzer Pro
-    </button>
-  </a>
-</main>
- <!-- Button ya Computer Diagnoser Pro -->
-<a href="diagnoser.html">
-  <button style="margin: 20px auto; display: block; padding: 12px 25px; background: #dc3545; color: white; border: none; border-radius: 5px; font-size: 1em; cursor: pointer;">
-    Fungua Computer Diagnoser Pro
-  </button>
-</a>
-<!-- Button ya Computer Learning Program -->
-<a href="learn-computers.html">
-  <button style="margin: 20px auto; display: block; padding: 12px 25px; background: #343a40; color: white; border: none; border-radius: 5px; font-size: 1em; cursor: pointer;">
-    Fungua Computer Learning Program
-  </button>
-</a>
+    <a href="analyzer.html">
+      <button style="margin: 20px auto; display: block; padding: 12px 25px; background: #6f42c1; color: white; border: none; border-radius: 5px; font-size: 1em; cursor: pointer;">
+        Fungua Website Analyzer Pro
+      </button>
+    </a>
 
+    <a href="diagnoser.html">
+      <button style="margin: 20px auto; display: block; padding: 12px 25px; background: #dc3545; color: white; border: none; border-radius: 5px; font-size: 1em; cursor: pointer;">
+        Fungua Computer Diagnoser Pro
+      </button>
+    </a>
+
+    <a href="learn-computers.html">
+      <button style="margin: 20px auto; display: block; padding: 12px 25px; background: #17a2b8; color: white; border: none; border-radius: 5px; font-size: 1em; cursor: pointer;">
+        Fungua Computer Learning Program
+      </button>
+    </a>
+  </main>
 
   <script>
-    let tools = [
+    let tools = JSON.parse(localStorage.getItem('tools')) || [
       { id: 1, name: "Tech Tool Pro", desc: "Chombo cha hali ya juu kwa wataalamu wa teknolojia.", price: 25000, img: "images/tool5.jpeg" },
       { id: 2, name: "Software Suite X", desc: "Pakia zote za softwares muhimu kwa biashara yako.", price: 40000, img: "images/tool2.jpeg" },
       { id: 3, name: "Digital Marketing Kit", desc: "Zana za uuzaji mtandaoni kwa mafanikio makubwa.", price: 30000, img: "images/tool3.jpeg" },
@@ -279,7 +275,9 @@
       const price = parseInt(document.getElementById('new-price').value);
       const img = document.getElementById('new-img').value;
       const id = tools.length + 1;
-      tools.push({ id, name, desc, price, img });
+      const newTool = { id, name, desc, price, img };
+      tools.push(newTool);
+      localStorage.setItem('tools', JSON.stringify(tools));
       showTools();
     }
 
