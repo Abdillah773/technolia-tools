@@ -1,0 +1,134 @@
+<!-- analyzer.html -->
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Website Analyzer Pro</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #007acc;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #007acc;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #005f9e;
+    }
+
+    .results {
+      margin-top: 20px;
+    }
+
+    .results h3 {
+      color: #333;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    .results p {
+      margin: 5px 0;
+    }
+
+    .back-btn {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .back-btn a {
+      text-decoration: none;
+      background: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+
+    .back-btn a:hover {
+      background: #1e7e34;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Website Analyzer Pro</h1>
+
+  <div class="container">
+    <input type="text" id="siteUrl" placeholder="Ingiza URL ya tovuti (mf. https://example.com)" />
+    <button onclick="analyzeWebsite()">Chambua Tovuti</button>
+
+    <div class="results" id="results"></div>
+
+    <div class="back-btn">
+      <a href="index.html">← Rudi Kwenye Duka</a>
+    </div>
+  </div>
+
+  <script>
+    function analyzeWebsite() {
+      const url = document.getElementById('siteUrl').value.trim();
+      const results = document.getElementById('results');
+      results.innerHTML = "<p>⏳ Inachambua tovuti...</p>";
+
+      if (!url.startsWith("http")) {
+        results.innerHTML = "<p style='color:red;'>⚠️ Tafadhali andika URL kamili kama https://example.com</p>";
+        return;
+      }
+
+      fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`)
+        .then(res => res.json())
+        .then(data => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(data.contents, "text/html");
+          const title = doc.querySelector("title")?.textContent || "Hakuna title";
+          const description = doc.querySelector("meta[name='description']")?.content || "Hakuna meta description";
+          const links = doc.querySelectorAll("a").length;
+
+          results.innerHTML = `
+            <h3>Matokeo ya Tovuti</h3>
+            <p><strong>Title:</strong> ${title}</p>
+            <p><strong>Meta Description:</strong> ${description}</p>
+            <p><strong>Idadi ya Links:</strong> ${links}</p>
+            <p style="color:green;"><em>✔️ Uchambuzi umekamilika!</em></p>
+          `;
+        })
+        .catch(err => {
+          results.innerHTML = `<p style="color:red;">🥺 Samahani, imeshindikana kufungua tovuti. Jaribu tena!</p>`;
+        });
+    }
+  </script>
+
+</body>
+</html>
