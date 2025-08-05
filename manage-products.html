@@ -1,0 +1,121 @@
+<!-- manage-products.html -->
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Badilisha Bidhaa - Abdillah Tools Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; padding: 20px;
+    }
+    h1 {
+      text-align: center; color: #007acc;
+    }
+    .tool-form {
+      background: white; padding: 20px; max-width: 600px; margin: auto;
+      border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block; margin-top: 15px; font-weight: bold;
+    }
+    input, textarea {
+      width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px;
+    }
+    button {
+      margin-top: 20px; padding: 10px 20px; background: #007acc; color: white;
+      border: none; border-radius: 5px; cursor: pointer; font-size: 1em;
+    }
+    button:hover {
+      background: #005fa3;
+    }
+    select {
+      padding: 8px; width: 100%; border-radius: 4px; margin-top: 5px;
+    }
+    .success {
+      color: green; text-align: center; margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Badilisha au Ongeza Bidhaa</h1>
+  <div class="tool-form">
+    <label>Chagua Bidhaa Uliyopo (au acha kwa kuongezea mpya):</label>
+    <select id="tool-select" onchange="loadTool()">
+      <option value="">-- Ongeza Mpya --</option>
+    </select>
+
+    <label>Jina la Bidhaa</label>
+    <input type="text" id="tool-name" placeholder="Mfano: Antivirus Pro" />
+
+    <label>Maelezo</label>
+    <textarea id="tool-desc" rows="3" placeholder="Maelezo mafupi kuhusu bidhaa"></textarea>
+
+    <label>Bei (Tsh)</label>
+    <input type="number" id="tool-price" placeholder="Mfano: 35000" />
+
+    <label>Kiungo cha Picha (Image URL)</label>
+    <input type="text" id="tool-img" placeholder="Mfano: images/tool1.jpeg" />
+
+    <button onclick="saveTool()">Hifadhi</button>
+    <div class="success" id="success-msg"></div>
+  </div>
+
+  <script>
+    let tools = JSON.parse(localStorage.getItem('tools')) || [];
+
+    function populateSelect() {
+      const select = document.getElementById('tool-select');
+      select.innerHTML = '<option value="">-- Ongeza Mpya --</option>';
+      tools.forEach((t, i) => {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = t.name;
+        select.appendChild(opt);
+      });
+    }
+
+    function loadTool() {
+      const i = document.getElementById('tool-select').value;
+      if(i === '') {
+        document.getElementById('tool-name').value = '';
+        document.getElementById('tool-desc').value = '';
+        document.getElementById('tool-price').value = '';
+        document.getElementById('tool-img').value = '';
+        return;
+      }
+      const t = tools[i];
+      document.getElementById('tool-name').value = t.name;
+      document.getElementById('tool-desc').value = t.desc;
+      document.getElementById('tool-price').value = t.price;
+      document.getElementById('tool-img').value = t.img;
+    }
+
+    function saveTool() {
+      const name = document.getElementById('tool-name').value.trim();
+      const desc = document.getElementById('tool-desc').value.trim();
+      const price = parseInt(document.getElementById('tool-price').value);
+      const img = document.getElementById('tool-img').value.trim();
+      if (!name || !desc || !price || !img) {
+        alert("Tafadhali jaza kila sehemu"); return;
+      }
+      const i = document.getElementById('tool-select').value;
+      if(i === '') {
+        // New
+        tools.push({ id: tools.length+1, name, desc, price, img });
+      } else {
+        // Edit existing
+        tools[i].name = name;
+        tools[i].desc = desc;
+        tools[i].price = price;
+        tools[i].img = img;
+      }
+      localStorage.setItem('tools', JSON.stringify(tools));
+      document.getElementById('success-msg').textContent = "Imehifadhiwa kikamilifu!";
+      populateSelect();
+    }
+
+    populateSelect();
+  </script>
+</body>
+</html>

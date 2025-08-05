@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Abdillah Technojia Tools Store - E-commerce System</title>
+  <!-- (STYLE section remains the same as you provided earlier) -->
+  <style>
+    /* (Imeondolewa kwa urefu - lakini iko salama kwenye toleo lako la awali) */
+  </style>
+</head>
+<body>
+  <header>Abdillah Technojia Tools Store</header>
+  <div class="auth" id="user-auth">
+    <input id="username" placeholder="Jina lako" />
+    <input id="password" type="password" placeholder="Nenosiri" />
+    <button onclick="loginUser()">Ingia</button>
+    <button onclick="signupUser()">Jisajili</button>
+  </div>
+
+  <button id="admin-toggle" onclick="toggleAdmin()">Admin</button>
+  <button id="cart-toggle">Duka (0)</button>
+
+  <div id="cart">
+    <h2>Kikapu Chako</h2>
+    <div id="cart-items"></div>
+    <div id="cart-total">Jumla: Tsh 0</div>
+    <button id="checkout-btn">Lipia Malipo Halisi</button>
+  </div>
+
+  <div id="admin-panel" style="display:none;">
+    <h2>Ingia kama Admin</h2>
+    <input id="admin-username" placeholder="Admin Jina" />
+    <input id="admin-password" type="password" placeholder="Nenosiri" />
+    <button onclick="loginAdmin()">Ingia</button>
+    <button onclick="closeAdminPanel()">Funga</button>
+  </div>
+
+  <div id="admin-dashboard">
+    <h2>Dashboard ya Admin</h2>
+    <button onclick="logoutAdmin()" style="float:right; background:#cc0000; color:white; border:none; padding:5px 10px; cursor:pointer; border-radius:3px;">Toka Admin</button>
+    <div id="users-list"></div>
+    <h3>Malipo ya Wateja</h3>
+    <div id="payments-list"></div>
+    <div id="admin-total-sales">Jumla ya Mauzo: Tsh 0</div>
+  </div>
+
+  <main>
+    <div class="tools-grid" id="tools-grid"></div>
+  </main>
+
+  <script>
+    let tools = [
+      { id: 1, name: "Tech Tool Pro", desc: "Chombo cha hali ya juu kwa wataalamu wa teknolojia.", price: 25000, img: "images/tool5.jpeg" },
+      { id: 2, name: "Software Suite X", desc: "Pakia zote za softwares muhimu kwa biashara yako.", price: 40000, img: "images/tool2.jpeg" },
+      { id: 3, name: "Digital Marketing Kit", desc: "Zana za uuzaji mtandaoni kwa mafanikio makubwa.", price: 30000, img: "images/tool3.jpeg" },
+      { id: 4, name: "Security Essentials", desc: "Zana za usalama kwa mifumo yako ya kompyuta.", price: 22000, img: "images/tool6.png" }
+    ];
+
+    let users = JSON.parse(localStorage.getItem('users')) || {};
+    let payments = JSON.parse(localStorage.getItem('payments')) || {};
+    let currentUser = null;
+    let cart = {};
+
+    function saveUsers() {
+      localStorage.setItem('users', JSON.stringify(users));
+    }
+
+    function savePayments() {
+      localStorage.setItem('payments', JSON.stringify(payments));
+    }
+
+    function signupUser() {
+      const u = document.getElementById('username').value.trim();
+      const p = document.getElementById('password').value.trim();
+      if(!u || !p) return alert("Jina na nenosiri vinahitajika");
+      if(users[u]) return alert("Mtumiaji tayari yupo");
+      users[u] = { password: p, purchases: [] };
+      saveUsers();
+      alert("Usajili umefanikiwa");
+    }
+
+    function loginUser() {
+      const u = document.getElementById('username').value.trim();
+      const p = document.getElementById('password').value.trim();
+      if(users[u] && users[u].password === p) {
+        currentUser = u;
+        alert("Karibu, " + u);
+        document.getElementById('user-auth').style.display = 'none';
+        showTools();
+        updateCartUI();
+      } else {
+        alert("Taarifa sio sahihi");
+      }
+    }
+
+    function showTools() {
+      const grid = document.getElementById('tools-grid');
+      grid.innerHTML = '';
+      tools.forEach(tool => {
+        const card = document.createElement('div');
+        card.className = 'tool-card';
+        card.innerHTML = `
+          <img src="${tool.img}" alt="${tool.name}" />
+          <div class="tool-name">${tool.name}</div>
+          <div class="tool-desc">${tool.desc}</div>
+          <div class="tool-price">Tsh ${tool.price.toLocaleString()}</div>
+          <button class="add-to-cart" data-id="${tool.id}">Ongeza Kikapu</button>
+        `;
+        grid.appendChild(card);
+      });
+      document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.onclick = () => addToCart(parseInt(btn.getAttribute('data-id')));
+      });
+    }
+
+    function addToCart(id) {
+      if(!currentUser) return alert("Tafadhali ingia kwanza");
+      const item = tools.find(t => t.id === id);
+      if (!item) return;
+      cart[id] = cart[id] ? { ...item, qty: cart[id].qty + 1 } : { ...item, qty: 1 };
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const cartDiv = document.getElementById('cart-items');
+      cartDiv.innerHTML = '';
+      let total = 0, totalItems = 0;
+      Object.values(cart).forEach(item => {
+        total += item.price * item.qty;
+        totalItems += item.qty;
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <div class="cart-item-name">${item.name}</div>
+          <div>
+            <button onclick="changeQty(${item.id}, -1)">-</button>
+            <span class="cart-item-qty">${item.qty}</span>
+            <button onclick="changeQty(${item.id}, 1)">+</button>
+            <button class="remove-item" onclick="removeFromCart(${item.id})">x</button>
+          </div>
+          <div class="cart-item-price">Tsh ${(item.price * item.qty).toLocaleString()}</div>
+        `;
+        cartDiv.appendChild(div);
+      });
+      document.getElementById('cart-total').textContent = `Jumla: Tsh ${total.toLocaleString()}`;
+      document.getElementById('cart-toggle').textContent = `Duka (${totalItems})`;
+    }
+
+    function changeQty(id, delta) {
+      if (cart[id]) {
+        cart[id].qty += delta;
+        if (cart[id].qty <= 0) delete cart[id];
+        updateCartUI();
+      }
+    }
+
+    function removeFromCart(id) {
+      delete cart[id];
+      updateCartUI();
+    }
+
+    document.getElementById('checkout-btn').onclick = () => {
+      if (!currentUser) return alert("Ingia kwanza");
+      if (Object.keys(cart).length === 0) return alert("Kikapu chako ni tupu!");
+      users[currentUser].purchases.push(...Object.values(cart));
+      payments[currentUser] = (payments[currentUser] || []).concat(Object.values(cart));
+      cart = {};
+      saveUsers();
+      savePayments();
+      updateCartUI();
+      alert("Malipo halisi yamepokelewa. Asante kwa kununua.");
+    };
+
+    document.getElementById('cart-toggle').onclick = () => {
+      const c = document.getElementById('cart');
+      c.style.display = c.style.display === 'flex' ? 'none' : 'flex';
+    };
+
+    function toggleAdmin() {
+      document.getElementById('admin-panel').style.display = 'flex';
+    }
+
+    function closeAdminPanel() {
+      document.getElementById('admin-panel').style.display = 'none';
+    }
+
+    function loginAdmin() {
+      const user = document.getElementById('admin-username').value;
+      const pass = document.getElementById('admin-password').value;
+      if(user === "admin" && pass === "admin123") {
+        document.getElementById('admin-dashboard').style.display = 'flex';
+        document.getElementById('admin-panel').style.display = 'none';
+        loadAdminData();
+      } else {
+        alert("Taarifa za Admin sio sahihi");
+      }
+    }
+
+    function logoutAdmin() {
+      document.getElementById('admin-dashboard').style.display = 'none';
+    }
+
+    function loadAdminData() {
+      let usersDiv = document.getElementById('users-list');
+      let paymentsDiv = document.getElementById('payments-list');
+      usersDiv.innerHTML = '';
+      paymentsDiv.innerHTML = '';
+      let totalSales = 0;
+
+      Object.entries(users).forEach(([name, info]) => {
+        const div = document.createElement('div');
+        div.className = 'user-section';
+        div.innerHTML = `<h3>${name}</h3><p>Manunuzi: ${info.purchases.length}</p>`;
+        usersDiv.appendChild(div);
+      });
+
+      Object.entries(payments).forEach(([name, items]) => {
+        items.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'purchase-item';
+          div.innerHTML = `<div class="purchase-item-name">${name} - ${item.name}</div><div class="purchase-item-price">Tsh ${item.price.toLocaleString()}</div>`;
+          totalSales += item.price;
+          paymentsDiv.appendChild(div);
+        });
+      });
+
+      document.getElementById('admin-total-sales').textContent = `Jumla ya Mauzo: Tsh ${totalSales.toLocaleString()}`;
+    }
+  </script>
+</body>
+</html>
