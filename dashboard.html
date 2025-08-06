@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mfumo Kamili wa Akaunti - Technolia Tools</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+    .container { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    input, button { width: 100%; padding: 10px; margin: 8px 0; }
+    button { background: #007acc; color: white; border: none; cursor: pointer; border-radius: 4px; }
+    button:hover { background: #005fa3; }
+    #welcome { margin-bottom: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Karibu Mfumo wa Akaunti</h2>
+    <div id="welcome"></div>
+
+    <input id="email" type="email" placeholder="Barua pepe" />
+    <input id="password" type="password" placeholder="Nenosiri" />
+    <button onclick="signup()">Jisajili</button>
+    <button onclick="login()">Ingia</button>
+    <button onclick="logout()" style="display:none;" id="logout-btn">Toka</button>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+  <script>
+    // Firebase config - badilisha na yako mwenyewe
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    const welcomeDiv = document.getElementById('welcome');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    // Kusajili mtumiaji
+    function signup() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(userCredential => {
+          alert('Usajili umefanikiwa!');
+          showUser(userCredential.user);
+        })
+        .catch(error => alert(error.message));
+    }
+
+    // Kuingia mtumiaji
+    function login() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      auth.signInWithEmailAndPassword(email, password)
+        .then(userCredential => {
+          alert('Karibu ' + userCredential.user.email);
+          showUser(userCredential.user);
+        })
+        .catch(error => alert(error.message));
+    }
+
+    // Kuonyesha jina la mtumiaji aliyeingia
+    function showUser(user) {
+      if (user) {
+        welcomeDiv.textContent = `Umeingia kama: ${user.email}`;
+        logoutBtn.style.display = 'block';
+      } else {
+        welcomeDiv.textContent = '';
+        logoutBtn.style.display = 'none';
+      }
+    }
+
+    // Kutoka mtumiaji
+    function logout() {
+      auth.signOut().then(() => {
+        alert('Umetoka akaunti');
+        showUser(null);
+      });
+    }
+
+    // Angalia hali ya user (login status)
+    auth.onAuthStateChanged(user => {
+      showUser(user);
+    });
+  </script>
+</body>
+</html>
