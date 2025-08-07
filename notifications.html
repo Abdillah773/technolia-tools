@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notifications Settings</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="settings-container">
+    <h2>Notifications Settings</h2>
+
+    <div class="setting-option">
+      <label for="email-notify">Email Notifications</label>
+      <input type="checkbox" id="email-notify" />
+    </div>
+
+    <div class="setting-option">
+      <label for="sms-notify">SMS Notifications</label>
+      <input type="checkbox" id="sms-notify" />
+    </div>
+
+    <div class="setting-option">
+      <label for="app-notify">In-App Notifications</label>
+      <input type="checkbox" id="app-notify" checked />
+    </div>
+
+    <button onclick="saveNotifications()">Save</button>
+  </div>
+
+  <script>
+    function saveNotifications() {
+      const email = document.getElementById('email-notify').checked;
+      const sms = document.getElementById('sms-notify').checked;
+      const app = document.getElementById('app-notify').checked;
+
+      const settings = {
+        email_notifications: email,
+        sms_notifications: sms,
+        app_notifications: app
+      };
+
+      localStorage.setItem('notifications_settings', JSON.stringify(settings));
+      alert('Notification settings saved!');
+    }
+
+    // Load existing settings if available
+    window.onload = () => {
+      const saved = JSON.parse(localStorage.getItem('notifications_settings'));
+      if (saved) {
+        document.getElementById('email-notify').checked = saved.email_notifications;
+        document.getElementById('sms-notify').checked = saved.sms_notifications;
+        document.getElementById('app-notify').checked = saved.app_notifications;
+      }
+    };
+  </script>
+</body>
+</html>

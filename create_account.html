@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Account</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 90%;
+      max-width: 400px;
+      margin: 50px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .back-link {
+      margin-top: 15px;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      color: #007bff;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Fungua Akaunti Mpya</h2>
+    <form id="createAccountForm">
+      <input type="text" id="name" name="name" placeholder="Jina Kamili" required />
+      <input type="email" id="email" name="email" placeholder="Barua Pepe" required />
+      <input type="password" id="password" name="password" placeholder="Nenosiri" required />
+      <button type="submit">Unda Akaunti</button>
+    </form>
+    <a href="settings.html" class="back-link">⬅️ Rudi kwenye Settings</a>
+  </div>
+
+  <script>
+    document.getElementById("createAccountForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      // Hifadhi taarifa za akaunti kwenye localStorage (kwa mfano wa mbele tu)
+      const account = {
+        name,
+        email,
+        password
+      };
+
+      localStorage.setItem("userAccount", JSON.stringify(account));
+
+      alert("Akaunti imeundwa kwa mafanikio!");
+      window.location.href = "settings.html";
+    });
+  </script>
+</body>
+</html>

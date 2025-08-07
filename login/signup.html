@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ingia / Jisajili - Abdillah Technojia Tools Store</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+</head>
+<body class="bg-gray-100">
+
+  <header class="bg-blue-600 text-white text-center text-3xl font-bold py-6">
+    Abdillah Technojia Tools Store
+  </header>
+
+  <main class="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
+
+    <h2 class="text-2xl font-semibold mb-6 text-center">Ingia / Jisajili</h2>
+
+    <!-- Tabs for Login and Signup -->
+    <div class="flex mb-6 justify-center space-x-4">
+      <button id="loginTab" class="px-4 py-2 bg-blue-600 text-white rounded">Ingia</button>
+      <button id="signupTab" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Jisajili</button>
+    </div>
+
+    <!-- Login Form -->
+    <form id="loginForm" class="space-y-4">
+      <input type="text" id="loginUsername" placeholder="Jina la Mtumiaji" class="w-full p-3 border rounded" required />
+      <input type="password" id="loginPassword" placeholder="Nenosiri" class="w-full p-3 border rounded" required />
+      <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700">Ingia</button>
+    </form>
+
+    <!-- Signup Form (hidden by default) -->
+    <form id="signupForm" class="space-y-4 hidden">
+      <input type="text" id="signupUsername" placeholder="Chagua Jina la Mtumiaji" class="w-full p-3 border rounded" required />
+      <input type="password" id="signupPassword" placeholder="Chagua Nenosiri" class="w-full p-3 border rounded" required />
+      <input type="password" id="signupPasswordConfirm" placeholder="Thibitisha Nenosiri" class="w-full p-3 border rounded" required />
+      <button type="submit" class="w-full bg-green-600 text-white py-3 rounded hover:bg-green-700">Jisajili</button>
+    </form>
+
+    <div id="message" class="mt-4 text-center text-red-600 font-semibold"></div>
+
+  </main>
+
+  <footer class="bg-gray-800 text-white text-center py-6 mt-10">
+    Haki zote zimehifadhiwa © 2025 Abdillah Technojia
+  </footer>
+
+  <script>
+    // Tab switching logic
+    const loginTab = document.getElementById('loginTab');
+    const signupTab = document.getElementById('signupTab');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const messageDiv = document.getElementById('message');
+
+    loginTab.addEventListener('click', () => {
+      loginTab.classList.add('bg-blue-600', 'text-white');
+      loginTab.classList.remove('bg-gray-300', 'text-black');
+      signupTab.classList.remove('bg-blue-600', 'text-white');
+      signupTab.classList.add('bg-gray-300', 'text-black');
+      loginForm.classList.remove('hidden');
+      signupForm.classList.add('hidden');
+      messageDiv.textContent = '';
+    });
+
+    signupTab.addEventListener('click', () => {
+      signupTab.classList.add('bg-green-600', 'text-white');
+      signupTab.classList.remove('bg-gray-300', 'text-black');
+      loginTab.classList.remove('bg-blue-600', 'text-white');
+      loginTab.classList.add('bg-gray-300', 'text-black');
+      signupForm.classList.remove('hidden');
+      loginForm.classList.add('hidden');
+      messageDiv.textContent = '';
+    });
+
+    // Signup form submission
+    signupForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const username = document.getElementById('signupUsername').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const passwordConfirm = document.getElementById('signupPasswordConfirm').value;
+
+      if (password !== passwordConfirm) {
+        messageDiv.textContent = 'Manenosiri hayalingani.';
+        return;
+      }
+
+      if (localStorage.getItem(username)) {
+        messageDiv.textContent = 'Jina la mtumiaji tayari lipo.';
+        return;
+      }
+
+      localStorage.setItem(username, password);
+      messageDiv.style.color = 'green';
+      messageDiv.textContent = 'Usajili umefanikiwa! Tafadhali ingia.';
+      signupForm.reset();
+    });
+
+    // Login form submission
+    loginForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      const savedPassword = localStorage.getItem(username);
+      if (!savedPassword) {
+        messageDiv.style.color = 'red';
+        messageDiv.textContent = 'Mtumiaji haipo.';
+        return;
+      }
+
+      if (savedPassword !== password) {
+        messageDiv.style.color = 'red';
+        messageDiv.textContent = 'Nenosiri si sahihi.';
+        return;
+      }
+
+      messageDiv.style.color = 'green';
+      messageDiv.textContent = `Karibu, ${username}! Umeingia kwa mafanikio.`;
+      loginForm.reset();
+    });
+  </script>
+
+</body>
+</html>

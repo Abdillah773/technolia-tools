@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Theme Color</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Badili Rangi ya Muonekano</h2>
+    <label for="themeColor">Chagua Rangi:</label>
+    <input type="color" id="themeColor" name="themeColor" value="#4CAF50">
+
+    <button onclick="saveTheme()">Hifadhi</button>
+    <p id="message"></p>
+  </div>
+
+  <script>
+    function saveTheme() {
+      const color = document.getElementById("themeColor").value;
+      localStorage.setItem("appThemeColor", color);
+      document.getElementById("message").textContent = "Rangi imehifadhiwa!";
+      document.body.style.backgroundColor = color;
+    }
+
+    window.onload = () => {
+      const savedColor = localStorage.getItem("appThemeColor");
+      if (savedColor) {
+        document.getElementById("themeColor").value = savedColor;
+        document.body.style.backgroundColor = savedColor;
+      }
+    };
+  </script>
+</body>
+</html>

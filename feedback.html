@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Feedback ya Mteja</h2>
+        <form action="/submit_feedback" method="POST">
+            <label for="name">Jina:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Barua pepe:</label>
+            <input type="email" id="email" name="email">
+
+            <label for="message">Maoni au Mapendekezo:</label>
+            <textarea id="message" name="message" rows="6" required></textarea>
+
+            <label for="rating">Kiwango cha kuridhika (★):</label>
+            <select id="rating" name="rating" required>
+                <option value="">--Chagua kiwango--</option>
+                <option value="5">★★★★★ - Nzuri sana</option>
+                <option value="4">★★★★☆ - Nzuri</option>
+                <option value="3">★★★☆☆ - Wastani</option>
+                <option value="2">★★☆☆☆ - Hafifu</option>
+                <option value="1">★☆☆☆☆ - Mbaya</option>
+            </select>
+
+            <button type="submit">Tuma Maoni</button>
+        </form>
+        <br>
+        <a href="index.html">← Kurudi kwenye Mwanzo</a>
+    </div>
+</body>
+</html>

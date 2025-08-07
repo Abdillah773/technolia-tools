@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header>
+    <h1>Contact Us</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="tool.html">Tools</a>
+      <a href="login-signup.html">Login / Signup</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>We’d love to hear from you!</h2>
+      <form action="https://formspree.io/f/your_form_id" method="POST">
+        <label>
+          Your Name:
+          <input type="text" name="name" required />
+        </label><br><br>
+        <label>
+          Your Email:
+          <input type="email" name="email" required />
+        </label><br><br>
+        <label>
+          Message:
+          <textarea name="message" rows="5" required></textarea>
+        </label><br><br>
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Technolia Tools</p>
+  </footer>
+</body>
+</html>

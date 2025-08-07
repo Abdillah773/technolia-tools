@@ -1,0 +1,25 @@
+<!-- signup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jisajili - Abdillah Technojia Tools Store</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+</head>
+<body class="bg-gray-100">
+  <header class="bg-blue-600 text-white text-center text-3xl font-bold py-6">
+    Jisajili - Abdillah Technojia Tools Store
+  </header>
+
+  <main class="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
+    <h2 class="text-center text-2xl font-semibold mb-6">Fungua Akaunti Mpya</h2>
+    <form action="/save-customer.php" method="post" class="space-y-4">
+      <input type="text" name="name" placeholder="Jina Kamili" required class="w-full p-3 border border-gray-300 rounded" />
+      <input type="tel" name="phone" placeholder="Namba ya Simu" required class="w-full p-3 border border-gray-300 rounded" />
+      <input type="password" name="password" placeholder="Nenosiri" required class="w-full p-3 border border-gray-300 rounded" />
+      <button type="submit" class="w-full bg-green-600 text-white py-3 rounded hover:bg-green-700">Jisajili</button>
+    </form>
+  </main>
+</body>
+</html>
