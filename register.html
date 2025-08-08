@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <title>Sajili Mteja</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <main class="max-w-xl mx-auto mt-10 p-8 bg-white rounded shadow">
+    <h1 class="text-2xl font-bold mb-6">Sajili Maelezo ya Mteja</h1>
+    <form action="save-customer.php" method="POST" class="space-y-4">
+      <input name="name" type="text" placeholder="Jina Kamili" required class="w-full p-3 border rounded">
+      <input name="email" type="email" placeholder="Barua Pepe" required class="w-full p-3 border rounded">
+      <input name="phone" type="tel" placeholder="Namba ya Simu" required class="w-full p-3 border rounded">
+      <button type="submit" class="bg-indigo-600 hover:bg-indigo-800 text-white px-6 py-3 rounded">
+        Sajili
+      </button>
+    </form>
+  </main>
+</body>
+</html>

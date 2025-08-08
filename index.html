@@ -18,6 +18,7 @@
       <button onclick="loginUser()" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Ingia</button>
       <button onclick="signupUser()" class="bg-green-500 text-white px-4 py-2 rounded">Jisajili</button>
     </div>
+    <a href="cart.html" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">🛒 Tazama Kikapu</a>
   </div>
 
   <div class="text-center mt-6">
@@ -59,8 +60,11 @@
       <a href="account-settings.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">⚙️ Akaunti</a>
       <a href="smart-download.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">⬇️ Smart Download</a>
       <a href="save-customer.php" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">📁 Hifadhi Mteja</a>
-      <a href="signup.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🧾 Sajili Mpya</a>
+      <a href="register.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🧾 Sajili Mteja</a>
       <a href="help.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🆘 Msaada</a>
+      <a href="ai-code-analyzer.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">💻 AI Code Analyzer</a>
+      <a href="cyber-security-pro-suite.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🔐 Cyber Security Pro Suite</a>
+      <a href="digital-marketing-suite.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">📈 Digital Marketing Suite</a>
     </div>
   </main>
 
@@ -71,6 +75,7 @@
     Haki zote zimehifadhiwa © 2025
   </footer>
 
+  <script src="js/add-to-cart.js"></script>
   <script>
     function connectToFirebase() {
       alert("Imeunganishwa na Firebase (placeholder)");
@@ -125,7 +130,7 @@
           <h3 class="font-bold text-lg">${tool.name}</h3>
           <p class="text-sm text-gray-600 mb-2">${tool.desc}</p>
           <p class="font-semibold text-blue-600 mb-4">Tsh ${tool.price.toLocaleString()}</p>
-          <button onclick="alert('Imeongezwa kwenye kikapu (placeholder)')" class="bg-blue-500 text-white px-4 py-2 rounded">Ongeza Kikapu</button>
+          <button onclick="addToCart('${tool.name}', ${tool.price})" class="bg-blue-500 text-white px-4 py-2 rounded">Ongeza Kikapu</button>
         `;
         grid.appendChild(card);
       });
