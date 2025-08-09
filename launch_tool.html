@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zindua Tool Mpya | Technolia Tools</title>
+  <link rel="stylesheet" href="static/css/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Zindua Tool Mpya</h1>
+    <form action="/zindua-tool" method="POST" enctype="multipart/form-data">
+      <!-- Jina la Tool -->
+      <label for="tool_name">Jina la Tool:</label>
+      <input type="text" id="tool_name" name="tool_name" required />
+
+      <!-- Maelezo mafupi -->
+      <label for="description">Maelezo Mafupi:</label>
+      <textarea id="description" name="description" required></textarea>
+
+      <!-- Bei -->
+      <label for="price">Bei ya Tool (TZS):</label>
+      <input type="number" id="price" name="price" min="0" required />
+
+      <!-- Link ya picha -->
+      <label for="image">Link au Upload ya Picha:</label>
+      <input type="text" id="image" name="image" placeholder="mf. static/images/tool1.jpg" required />
+
+      <!-- Kundi la Bidhaa -->
+      <label for="category">Kundi la Tool:</label>
+      <select id="category" name="category" required>
+        <option value="">--Chagua--</option>
+        <option value="AI Tools">AI Tools</option>
+        <option value="Web Utilities">Web Utilities</option>
+        <option value="Design Tools">Design Tools</option>
+        <option value="Cyber Tools">Cyber Tools</option>
+        <option value="Security & Privacy">Security & Privacy</option>
+      </select>
+
+      <!-- Download File -->
+      <label for="download_link">Link ya Download (au Preview Demo):</label>
+      <input type="url" id="download_link" name="download_link" placeholder="https://example.com/file.zip" />
+
+      <!-- Submit Button -->
+      <button type="submit">Zindua Tool Hii</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PDF Protector Pro</title>
+</head>
+<body>
+  <h2>🔐 PDF Protector Pro</h2>
+  <p>Linda faili zako za PDF kwa kuweka nenosiri kwa urahisi.</p>
+
+  <input type="file" id="pdfFile" accept=".pdf"><br><br>
+  <input type="password" id="password" placeholder="Weka Nenosiri"><br><br>
+  <button onclick="protectPDF()">Linda PDF</button>
+  <p id="status"></p>
+
+  <script>
+    function protectPDF() {
+      const file = document.getElementById("pdfFile").files[0];
+      const password = document.getElementById("password").value;
+
+      if (!file || !password) {
+        document.getElementById("status").innerText = "Tafadhali chagua faili na uweke nenosiri.";
+        return;
+      }
+
+      document.getElementById("status").innerText = "🔄 Inalindwa... Subiri sekunde chache.";
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("password", password);
+
+      fetch("https://api.pdf.co/v1/pdf/security/add", {
+        method: "POST",
+        headers: {
+          "x-api-key": "YOUR_API_KEY_HAPA" // Badilisha na api key yako ya pdf.co
+        },
+        body: formData
+      })
+      .then(response => response.json())
+      .then(result => {
+        if (result.url) {
+          document.getElementById("status").innerHTML = `✅ PDF imelindwa. <a href="${result.url}" target="_blank">Pakua hapa</a>`;
+        } else {
+          document.getElementById("status").innerText = "❌ Imeshindikana. Hakikisha API Key ni sahihi.";
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        document.getElementById("status").innerText = "⚠️ Hitilafu imetokea.";
+      });
+    }
+  </script>
+</body>
+</html>
