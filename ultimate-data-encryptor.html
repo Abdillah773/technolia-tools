@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ultimate Data Encryptor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 30px auto;
+      background: #f9fafb;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #aaa;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    p {
+      color: #555;
+      line-height: 1.5;
+    }
+    textarea, input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      resize: vertical;
+    }
+    button {
+      background-color: #4caf50;
+      border: none;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 5px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #output {
+      margin-top: 15px;
+      white-space: pre-wrap;
+      background: #eef2f7;
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      min-height: 80px;
+    }
+    .btn-group {
+      margin-top: 10px;
+      text-align: center;
+    }
+    .price {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: green;
+      text-align: center;
+      margin: 10px 0;
+    }
+    .cart-btn {
+      background-color: #ff9800;
+    }
+    .cart-btn:hover {
+      background-color: #e68900;
+    }
+  </style>
+</head>
+<body>
+  <h1>🛡 Ultimate Data Encryptor</h1>
+  <p>
+    Hii ni zana ya hali ya juu kwa ajili ya <strong>kusimba na kufungua data zako</strong> kwa usalama wa hali ya juu 
+    kwa kutumia teknolojia ya AES Encryption. Inafaa kwa kulinda nyaraka, ujumbe binafsi na data nyeti.
+  </p>
+
+  <div class="price">Bei: TZS 15,000</div>
+  <div class="btn-group">
+    <button class="cart-btn" onclick="alert('Imeongezwa kwenye kikapu!')">🛒 Ongeza Kikapu</button>
+  </div>
+
+  <h2>Tumia Encryptor</h2>
+  <textarea id="inputText" rows="6" placeholder="Andika hapa data au ujumbe wako..."></textarea>
+  <input type="password" id="password" placeholder="Weka nenosiri la usimbaji..." />
+  
+  <div class="btn-group">
+    <button onclick="encryptData()">Encrypt</button>
+    <button onclick="decryptData()">Decrypt</button>
+  </div>
+  
+  <div id="output" placeholder="Matokeo yataonekana hapa..."></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script>
+    const output = document.getElementById("output");
+
+    function encryptData() {
+      const text = document.getElementById("inputText").value.trim();
+      const pass = document.getElementById("password").value.trim();
+      if (!text || !pass) {
+        output.textContent = "Tafadhali jaza data na nenosiri.";
+        return;
+      }
+      const encrypted = CryptoJS.AES.encrypt(text, pass).toString();
+      output.textContent = encrypted;
+    }
+
+    function decryptData() {
+      const encryptedText = document.getElementById("inputText").value.trim();
+      const pass = document.getElementById("password").value.trim();
+      if (!encryptedText || !pass) {
+        output.textContent = "Tafadhali jaza data iliyosimbwa na nenosiri.";
+        return;
+      }
+      try {
+        const bytes = CryptoJS.AES.decrypt(encryptedText, pass);
+        const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+        if (!decrypted) throw new Error("Nenosiri si sahihi au data si sahihi.");
+        output.textContent = decrypted;
+      } catch (e) {
+        output.textContent = "❌ Imeshindikana kufungua data. Hakikisha nenosiri na data ni sahihi.";
+      }
+    }
+  </script>
+</body>
+</html>
