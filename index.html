@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sw">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -65,11 +65,25 @@
       <a href="ai-code-analyzer.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">💻 AI Code Analyzer</a>
       <a href="cyber-security-pro-suite.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🔐 Cyber Security Pro Suite</a>
       <a href="digital-marketing-suite.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">📈 Digital Marketing Suite</a>
+      <a href="launch_tool.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🚀 Zindua Tool Mpya</a>
+      <a href="pdf-protector-pro.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🛡️ PDF Protector Pro</a>
     </div>
   </main>
 
-  <h2 class="text-center text-xl font-bold mb-4">Zana Zinazopatikana</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="tools-grid"></div>
+  <h2 class="text-center text-xl font-bold mb-4 mt-10">Zana Zinazopatikana</h2>
+  <div id="toolsList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4"></div>
+
+  <div class="max-w-4xl mx-auto p-4 mt-10 bg-white rounded shadow">
+    <h3 class="text-lg font-bold mb-4">🚀 Zindua Bidhaa Mpya</h3>
+    <form id="toolForm" class="bg-white p-4 rounded space-y-4 border">
+      <input id="toolName" type="text" placeholder="Jina la Tool" class="border p-2 w-full" required>
+      <input id="toolDesc" type="text" placeholder="Maelezo Mafupi" class="border p-2 w-full" required>
+      <input id="toolPrice" type="number" placeholder="Bei ya Tool (TZS)" class="border p-2 w-full" required>
+      <input id="toolImage" type="text" placeholder="Link ya Picha ya Tool (mf. static/images/tool1.jpg)" class="border p-2 w-full" required>
+      <input id="toolDownload" type="url" placeholder="Link ya Download au Preview Demo" class="border p-2 w-full" required>
+      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Zindua Tool Hii</button>
+    </form>
+  </div>
 
   <footer class="bg-gray-800 text-white text-center py-6 mt-10">
     Haki zote zimehifadhiwa © 2025
@@ -110,32 +124,15 @@
       alert('Ujumbe umetumwa kwa Admin');
       document.getElementById('client-message').value = '';
     }
-
-    let tools = JSON.parse(localStorage.getItem('tools')) || [
-      { id: 1, name: "Tech Tool Pro", desc: "Chombo cha hali ya juu kwa wataalamu wa teknolojia.", price: 25000, img: "images/tool5.jpeg" },
-      { id: 2, name: "Software Suite X", desc: "Pakia zote za softwares muhimu kwa biashara yako.", price: 40000, img: "images/tool2.jpeg" },
-      { id: 3, name: "Digital Marketing Kit", desc: "Zana za uuzaji mtandaoni kwa mafanikio makubwa.", price: 30000, img: "images/tool3.jpeg" },
-      { id: 4, name: "Security Essentials", desc: "Zana za usalama kwa mifumo yako ya kompyuta.", price: 22000, img: "images/tool6.png" }
-    ];
-
-    function showTools() {
-      const grid = document.getElementById('tools-grid');
-      grid.innerHTML = '';
-      tools.forEach(tool => {
-        const card = document.createElement('div');
-        card.className = 'border p-4 rounded shadow hover:shadow-lg text-center';
-        card.innerHTML = `
-          <img src="${tool.img}" alt="${tool.name}" class="mx-auto h-32 object-contain mb-2"/>
-          <h3 class="font-bold text-lg">${tool.name}</h3>
-          <p class="text-sm text-gray-600 mb-2">${tool.desc}</p>
-          <p class="font-semibold text-blue-600 mb-4">Tsh ${tool.price.toLocaleString()}</p>
-          <button onclick="addToCart('${tool.name}', ${tool.price})" class="bg-blue-500 text-white px-4 py-2 rounded">Ongeza Kikapu</button>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    showTools();
   </script>
+
+  <!-- External JavaScript Files -->
+  <script src="static/js/project-management.js"></script>
+  <script src="static/js/shopping-cart.js"></script>
+  <script src="static/js/PriceSniperPro.js"></script>
+  <script src="static/js/product-launcher.js"></script>
+  <script src="static/js/auto-marketer-ai.js"></script>
+  <script src="static/js/submit_tool.js"></script>
+  <script src="static/js/tools_list.js"></script>
 </body>
 </html>
