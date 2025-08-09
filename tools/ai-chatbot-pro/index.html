@@ -18,9 +18,43 @@
       text-align: center;
       color: #2c3e50;
     }
+    #tools-card {
+      border: 1px solid #ddd;
+      background: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    #tools-card p {
+      margin: 10px 0;
+      color: #555;
+    }
+    #price {
+      font-weight: bold;
+      color: #2a9d8f;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+    #addToCartBtn {
+      background-color: #2ecc71;
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      display: block;
+      width: 100%;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    #addToCartBtn:hover {
+      background-color: #27ae60;
+    }
     #chatbox {
       border: 1px solid #ccc;
-      height: 400px;
+      height: 300px;
       overflow-y: auto;
       padding: 10px;
       background: #fff;
@@ -74,6 +108,13 @@
 </head>
 <body>
   <h2>🤖 Smart AI Chatbot Pro</h2>
+
+  <div id="tools-card">
+    <p>Linda mawasiliano yako na mteja kwa Chatbot yenye akili ya bandia, inayojifunza na kusaidia kwa haraka.</p>
+    <p id="price">Bei: Tsh 30,000</p>
+    <button id="addToCartBtn">Ongeza Kikapu</button>
+  </div>
+
   <div id="chatbox"></div>
   <div id="inputArea">
     <input type="text" id="inputMessage" placeholder="Andika ujumbe wako hapa..." autofocus />
@@ -81,6 +122,12 @@
   </div>
 
   <script>
+    // Ongeza kikapu function
+    document.getElementById("addToCartBtn").addEventListener("click", () => {
+      alert("Smart AI Chatbot Pro imeongezwa kwenye kikapu chako!");
+      // Hapa unaweza kuongeza logic ya kuhifadhi kwenye cart
+    });
+
     const chatbox = document.getElementById("chatbox");
     const inputMessage = document.getElementById("inputMessage");
     const sendBtn = document.getElementById("sendBtn");
@@ -95,7 +142,6 @@
     }
 
     function botReply(userText) {
-      // Simple canned responses logic
       userText = userText.toLowerCase().trim();
 
       if (userText.includes("habari")) {
@@ -113,7 +159,6 @@
       if (userText.includes("asante")) {
         return "Karibu sana! Ikiwa unahitaji msaada zaidi, niambie tu.";
       }
-      // Default reply
       return "Samahani, sikuelewi. Tafadhali jaribu tena au weka swali tofauti.";
     }
 
@@ -126,7 +171,6 @@
       inputMessage.disabled = true;
       sendBtn.disabled = true;
 
-      // Simulate bot thinking time
       setTimeout(() => {
         const reply = botReply(text);
         appendMessage(reply, "bot");
