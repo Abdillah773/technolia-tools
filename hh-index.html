@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Abdillah Technojia Tools Store - Usimamizi Kamili</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3b82f6;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #2563eb;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  <!-- HEADER -->
+  <header class="bg-blue-700 text-white py-5 shadow-md">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-3xl font-bold tracking-wide">Abdillah Technojia Tools Store</h1>
+      <nav class="space-x-6">
+        <button id="btnShowLogin" class="bg-white text-blue-700 px-4 py-2 rounded hover:bg-gray-100 font-semibold">Ingia</button>
+        <button id="btnShowRegister" class="bg-green-600 px-4 py-2 rounded hover:bg-green-700 font-semibold">Jisajili</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-grow container mx-auto px-4 py-8 max-w-7xl">
+
+    <!-- LOGIN & REGISTER SECTIONS -->
+    <section id="authSection" class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8">
+
+      <!-- LOGIN FORM -->
+      <form id="loginForm" class="space-y-6" style="display:none;">
+        <h2 class="text-2xl font-bold mb-4 text-center text-blue-700">Ingia Kwenye Akaunti</h2>
+        <input id="loginUsername" type="text" placeholder="Jina la mtumiaji" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+        <input id="loginPassword" type="password" placeholder="Nenosiri" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+        <button type="submit" class="w-full bg-blue-700 text-white py-3 rounded font-semibold hover:bg-blue-800">Ingia</button>
+        <p class="mt-4 text-center text-gray-500 text-sm">Huna akaunti? <button id="showRegisterBtn" type="button" class="text-green-600 hover:underline">Jisajili hapa</button></p>
+      </form>
+
+      <!-- REGISTER FORM -->
+      <form id="registerForm" class="space-y-6" style="display:none;">
+        <h2 class="text-2xl font-bold mb-4 text-center text-green-600">Jisajili Kuwa Mtumiaji</h2>
+        <input id="registerUsername" type="text" placeholder="Jina la mtumiaji" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required />
+        <input id="registerEmail" type="email" placeholder="Barua pepe" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required />
+        <input id="registerPassword" type="password" placeholder="Nenosiri" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required />
+        <input id="registerPasswordConfirm" type="password" placeholder="Thibitisha nenosiri" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required />
+        <button type="submit" class="w-full bg-green-600 text-white py-3 rounded font-semibold hover:bg-green-700">Jisajili</button>
+        <p class="mt-4 text-center text-gray-500 text-sm">Umewahi kuwa na akaunti? <button id="showLoginBtn" type="button" class="text-blue-700 hover:underline">Ingia hapa</button></p>
+      </form>
+
+      <!-- WELCOME MESSAGE -->
+      <div id="welcomeSection" style="display:none;">
+        <h2 class="text-center text-2xl font-bold mb-6 text-green-700"></h2>
+        <button id="logoutBtn" class="w-full bg-red-600 text-white py-3 rounded font-semibold hover:bg-red-700">Toka</button>
+      </div>
+
+    </section>
+
+    <!-- DASHBOARD SECTION -->
+    <section id="dashboardSection" class="hidden mt-12">
+
+      <!-- Greetings -->
+      <h2 class="text-3xl font-bold mb-8 text-center text-blue-700">Paneli ya Usimamizi - Karibu, <span id="userDisplayName"></span></h2>
+
+      <!-- Tabs -->
+      <div class="flex justify-center mb-6 space-x-4">
+        <button class="tabBtn bg-blue-600 text-white px-6 py-2 rounded font-semibold" data-tab="products">Bidhaa & Tools</button>
+        <button class="tabBtn bg-gray-300 text-gray-700 px-6 py-2 rounded font-semibold" data-tab="orders">Maagizo</button>
+        <button class="tabBtn bg-gray-300 text-gray-700 px-6 py-2 rounded font-semibold" data-tab="stats">Takwimu</button>
+        <button class="tabBtn bg-gray-300 text-gray-700 px-6 py-2 rounded font-semibold" data-tab="messages">Ujumbe kwa Admin</button>
+        <button class="tabBtn bg-gray-300 text-gray-700 px-6 py-2 rounded font-semibold" data-tab="settings">Mipangilio</button>
+      </div>
+
+      <!-- Tab Contents -->
+      <div>
+
+        <!-- Products Tab -->
+        <div id="tab-products" class="tabContent">
+          <div class="max-w-6xl mx-auto bg-white rounded shadow p-6">
+            <h3 class="text-xl font-bold mb-4">Bidhaa na Tools Zilizopo</h3>
+            <div id="productsList" class="grid grid-cols-1 md:grid-cols-3 gap-6 overflow-y-auto max-h-[320px] mb-6 border border-gray-200 rounded p-4 bg-gray-50"></div>
+            <h4 class="text-lg font-semibold mb-3">Ongeza Tool Mpya</h4>
+            <form id="addProductForm" class="space-y-4">
+              <input type="text" id="productName" placeholder="Jina la Tool" class="w-full border border-gray-300 rounded px-3 py-2" required />
+              <textarea id="productDesc" placeholder="Maelezo Mafupi" class="w-full border border-gray-300 rounded px-3 py-2" rows="3" required></textarea>
+              <input type="number" id="productPrice" placeholder="Bei (TZS)" class="w-full border border-gray-300 rounded px-3 py-2" required />
+              <input type="url" id="productImage" placeholder="Link ya Picha (mf. https://...)" class="w-full border border-gray-300 rounded px-3 py-2" required />
+              <input type="url" id="productDownload" placeholder="Link ya Download au Demo" class="w-full border border-gray-300 rounded px-3 py-2" required />
+              <button type="submit" class="bg-green-600 text-white py-3 rounded w-full hover:bg-green-700 font-semibold">Ongeza Tool</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Orders Tab -->
+        <div id="tab-orders" class="tabContent hidden">
+          <div class="max-w-6xl mx-auto bg-white rounded shadow p-6">
+            <h3 class="text-xl font-bold mb-4">Maagizo ya Wateja</h3>
+            <div id="ordersList" class="overflow-auto max-h-[320px] border border-gray-200 rounded p-4 bg-gray-50"></div>
+          </div>
+        </div>
+
+        <!-- Stats Tab -->
+        <div id="tab-stats" class="tabContent hidden">
+          <div class="max-w-6xl mx-auto bg-white rounded shadow p-6">
+            <h3 class="text-xl font-bold mb-4">Takwimu na Matokeo</h3>
+            <div id="statsContent" class="text-gray-700 space-y-4">
+              <p><strong>Jumla ya Bidhaa:</strong> <span id="totalProducts">0</span></p>
+              <p><strong>Jumla ya Maagizo:</strong> <span id="totalOrders">0</span></p>
+              <p><strong>Mapato Yaliyopatikana (TZS):</strong> <span id="totalRevenue">0</span></p>
+              <p><strong>Bidhaa Maarufu:</strong> <span id="mostPopularProduct">Hakuna bado</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Messages Tab -->
+        <div id="tab-messages" class="tabContent hidden">
+          <div class="max-w-6xl mx-auto bg-white rounded shadow p-6">
+            <h3 class="text-xl font-bold mb-4">Ujumbe wa Watumiaji kwa Admin</h3>
+            <div id="messagesList" class="overflow-auto max-h-[320px] border border-gray-200 rounded p-4 bg-gray-50"></div>
+          </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="tab-settings" class="tabContent hidden">
+          <div class="max-w-6xl mx-auto bg-white rounded shadow p-6">
+            <h3 class="text-xl font-bold mb-4">Mipangilio ya Akaunti</h3>
+            <form id="settingsForm" class="space-y-4 max-w-md">
+              <label class="block font-semibold" for="changePassword">Badilisha Nenosiri</label>
+              <input type="password" id="changePassword" placeholder="Nenosiri jipya" class="w-full border border-gray-300 rounded px-3 py-2" />
+              <input type="password" id="changePasswordConfirm" placeholder="Thibitisha nenosiri jipya" class="w-full border border-gray-300 rounded px-3 py-2" />
+              <button type="submit" class="bg-blue-600 text-white py-3 rounded hover:bg-blue-700 font-semibold">Hifadhi Mipangilio</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-800 text-white text-center py-6 mt-auto">
+    &copy; 2025 Abdillah Technojia Tools Store. Haki zote zimehifadhiwa.
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // --- AUTH LOGIC ---
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const authSection = document.getElementById('authSection');
+    const dashboardSection = document.getElementById('dashboardSection');
+    const welcomeSection = document.getElementById('welcomeSection');
+    const userDisplayName = document.getElementById('userDisplayName');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    // Show/hide login/register forms
+    document.getElementById('btnShowLogin').addEventListener('click', () => {
+      showLogin();
+    });
+    document.getElementById('btnShowRegister').addEventListener('click', () => {
+      showRegister();
+    });
+    document.getElementById('showRegisterBtn').addEventListener('click', () => {
+      showRegister();
+    });
+    document.getElementById('showLoginBtn').addEventListener('click', () => {
+      showLogin();
+    });
+
+    function showLogin() {
+      loginForm.style.display = 'block';
+      registerForm.style.display = 'none';
+      welcomeSection.style.display = 'none';
+    }
+    function showRegister() {
+      loginForm.style.display = 'none';
+      registerForm.style.display = 'block';
+      welcomeSection.style.display = 'none';
+    }
+
+    // Save users in localStorage (for demo only, no real DB)
+    function getUsers() {
+      return JSON.parse(localStorage.getItem('users')) || {};
+    }
+    function saveUsers(users) {
+      localStorage.setItem('users', JSON.stringify(users));
+    }
+
+    // Register User
+    registerForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const u = document.getElementById('registerUsername').value.trim();
+      const email = document.getElementById('registerEmail').value.trim();
+      const p = document.getElementById('registerPassword').value;
+      const pConfirm = document.getElementById('registerPasswordConfirm').value;
+
+      if(p !== pConfirm) {
+        alert('Nenosiri halifanani.');
+        return;
+      }
+      const users = getUsers();
+      if(users[u]) {
+        alert('Jina la mtumiaji limekwisha tumika.');
+        return;
+      }
+      users[u] = { email: email, password: p, orders: [], messages: [] };
+      saveUsers(users);
+      alert('Usajili umefanikiwa. Tafadhali ingia.');
+      registerForm.reset();
+      showLogin();
+    });
+
+    // Login User
+    loginForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const u = document.getElementById('loginUsername').value.trim();
+      const p = document.getElementById('loginPassword').value;
+      const users = getUsers();
+
+      if(users[u] && users[u].password === p) {
+        loginUser(u);
+      } else {
+        alert('Taarifa sio sahihi.');
+      }
+    });
+
+    // Login function
+    function loginUser(username) {
+      authSection.style.display = 'none';
+      dashboardSection.classList.remove('hidden');
+      userDisplayName.textContent = username;
+      sessionStorage.setItem('loggedInUser', username);
+      welcomeSection.style.display = 'none';
+      loadDashboardData();
+    }
+
+    // Logout function
+    logoutBtn.addEventListener('click', () => {
+      sessionStorage.removeItem('loggedInUser');
+      dashboardSection.classList.add('hidden');
+      authSection.style.display = 'block';
+      showLogin();
+    });
+
+    // Check if already logged in on page load
+    window.addEventListener('load', () => {
+      const loggedInUser = sessionStorage.getItem('loggedInUser');
+      if(loggedInUser) {
+        loginUser(loggedInUser);
+      } else {
+        showLogin();
+      }
+    });
+
+    // --- PRODUCTS LOGIC ---
+    const productsKey = 'productsList';
+
+    function getProducts() {
+      return JSON.parse(localStorage.getItem(productsKey)) || [];
+    }
+    function saveProducts(products) {
+      localStorage.setItem(productsKey, JSON.stringify(products));
+    }
+
+    // Render products list
+    function renderProducts() {
+      const productsList = document.getElementById('productsList');
+      const products = getProducts();
+      productsList.innerHTML = '';
+      if(products.length === 0) {
+        productsList.innerHTML = '<p class="text-center text-gray-500">Hakuna bidhaa zilizoorodheshwa.</p>';
+        return;
+      }
+      products.forEach((prod, index) => {
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded shadow p-4 flex flex-col';
+        card.innerHTML = `
+          <img src="${prod.image}" alt="${prod.name}" class="w-full h-40 object-cover rounded mb-3" />
+          <h4 class="font-bold text-lg">${prod.name}</h4>
+          <p class="text-gray-600 mt-1 flex-grow">${prod.desc}</p>
+          <p class="font-semibold text-green-600 mt-2">TZS ${prod.price.toLocaleString()}</p>
+          <div class="mt-4 flex space-x-2">
+            <a href="${prod.download}" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex-1 text-center">Pakua / Onyesha</a>
+            <button class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded flex-1" onclick="addToCart(${index})">Ongeza Kikapu</button>
+            <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded flex-1" onclick="deleteProduct(${index})">Futa</button>
+          </div>
+        `;
+        productsList.appendChild(card);
+      });
+      updateStats();
+    }
+
+    // Add product form submit
+    document.getElementById('addProductForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('productName').value.trim();
+      const desc = document.getElementById('productDesc').value.trim();
+      const price = Number(document.getElementById('productPrice').value);
+      const image = document.getElementById('productImage').value.trim();
+      const download = document.getElementById('productDownload').value.trim();
+
+      if(!name || !desc || !price || !image || !download) {
+        alert('Tafadhali jaza sehemu zote.');
+        return;
+      }
+
+      const products = getProducts();
+      products.push({ name, desc, price, image, download, sold: 0 });
+      saveProducts(products);
+      renderProducts();
+
+      e.target.reset();
+      alert('Tool imeongezwa kwa mafanikio!');
+    });
+
+    // Delete product
+    function deleteProduct(index) {
+      if(confirm('Unataka kufuta tool hii?')) {
+        const products = getProducts();
+        products.splice(index, 1);
+        saveProducts(products);
+        renderProducts();
+      }
+    }
+
+    // --- CART LOGIC ---
+    const cartKey = 'shoppingCart';
+
+    function getCart() {
+      return JSON.parse(localStorage.getItem(cartKey)) || [];
+    }
+    function saveCart(cart) {
+      localStorage.setItem(cartKey, JSON.stringify(cart));
+    }
+
+    function addToCart(productIndex) {
+      const products = getProducts();
+      const cart = getCart();
+
+      const product = products[productIndex];
+      if(!product) return;
+
+      const inCartIndex = cart.findIndex(item => item.name === product.name);
+      if(inCartIndex !== -1) {
+        cart[inCartIndex].quantity++;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+      saveCart(cart);
+      alert(`Tool "${product.name}" imeongezwa kwenye kikapu.`);
+      renderCart();
+    }
+
+    // --- ORDERS LOGIC ---
+    function renderOrders() {
+      const ordersList = document.getElementById('ordersList');
+      const users = getUsers();
+      let ordersHTML = '';
+
+      Object.keys(users).forEach(user => {
+        const userOrders = users[user].orders || [];
+        userOrders.forEach((order, i) => {
+          ordersHTML += `
+            <div class="border border-gray-300 rounded p-3 mb-3 bg-white">
+              <p><strong>Mteja:</strong> ${user}</p>
+              <p><strong>Tool:</strong> ${order.name}</p>
+              <p><strong>Kiasi:</strong> ${order.quantity}</p>
+              <p><strong>Tarehe:</strong> ${order.date}</p>
+            </div>
+          `;
+        });
+      });
+
+      ordersList.innerHTML = ordersHTML || '<p class="text-center text-gray-500">Hakuna maagizo yoyote.</p>';
+      updateStats();
+    }
+
+    // --- STATS LOGIC ---
+    function updateStats() {
+      const products = getProducts();
+      document.getElementById('totalProducts').textContent = products.length;
+
+      const users = getUsers();
+      let totalOrders = 0;
+      let totalRevenue = 0;
+      let productSales = {};
+
+      Object.values(users).forEach(user => {
+        (user.orders || []).forEach(order => {
+          totalOrders += order.quantity;
+          totalRevenue += order.quantity * order.price;
+          if(productSales[order.name]) {
+            productSales[order.name] += order.quantity;
+          } else {
+            productSales[order.name] = order.quantity;
+          }
+        });
+      });
+
+      document.getElementById('totalOrders').textContent = totalOrders;
+      document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString();
+
+      // Find most popular product
+      let mostPopular = 'Hakuna bado';
+      let maxSold = 0;
+      for(let p in productSales) {
+        if(productSales[p] > maxSold) {
+          maxSold = productSales[p];
+          mostPopular = p;
+        }
+      }
+      document.getElementById('mostPopularProduct').textContent = mostPopular;
+    }
+
+    // --- MESSAGES LOGIC ---
+    function renderMessages() {
+      const messagesList = document.getElementById('messagesList');
+      const users = getUsers();
+      let messagesHTML = '';
+
+      Object.keys(users).forEach(user => {
+        const userMessages = users[user].messages || [];
+        userMessages.forEach(msg => {
+          messagesHTML += `
+            <div class="border border-gray-300 rounded p-3 mb-3 bg-white">
+              <p><strong>${user}:</strong> ${msg.text}</p>
+              <p class="text-xs text-gray-500">${msg.date}</p>
+            </div>
+          `;
+        });
+      });
+
+      messagesList.innerHTML = messagesHTML || '<p class="text-center text-gray-500">Hakuna ujumbe wowote.</p>';
+    }
+
+    // --- SETTINGS LOGIC ---
+    const settingsForm = document.getElementById('settingsForm');
+    settingsForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const newPass = document.getElementById('changePassword').value;
+      const newPassConfirm = document.getElementById('changePasswordConfirm').value;
+      if(newPass !== newPassConfirm) {
+        alert('Nenosiri halifanani.');
+        return;
+      }
+      if(newPass.length < 6) {
+        alert('Nenosiri lazima liwe angalau herufi 6.');
+        return;
+      }
+      const username = sessionStorage.getItem('loggedInUser');
+      if(!username) return;
+      const users = getUsers();
+      users[username].password = newPass;
+      saveUsers(users);
+      alert('Nenosiri limebadilishwa kwa mafanikio.');
+      settingsForm.reset();
+    });
+
+    // --- LOAD DASHBOARD DATA ---
+    function loadDashboardData() {
+      renderProducts();
+      renderOrders();
+      renderMessages();
+      updateStats();
+    }
+
+    // --- ADD MESSAGE TO ADMIN ---
+    function sendMessageToAdmin() {
+      const message = prompt('Andika ujumbe kwa Admin:');
+      if(!message || message.trim().length < 3) {
+        alert('Ujumbe lazima uwe na herufi zaidi ya 2.');
+        return;
+      }
+      const username = sessionStorage.getItem('loggedInUser');
+      if(!username) {
+        alert('Tafadhali ingia kwanza.');
+        return;
+      }
+      const users = getUsers();
+      if(!users[username].messages) users[username].messages = [];
+      users[username].messages.push({ text: message.trim(), date: new Date().toLocaleString() });
+      saveUsers(users);
+      alert('Ujumbe umetumwa kwa Admin.');
+      renderMessages();
+    }
+
+    // --- TABS SWITCHING ---
+    const tabButtons = document.querySelectorAll('.tabBtn');
+    const tabContents = document.querySelectorAll('.tabContent');
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('bg-blue-600', 'text-white'));
+        tabButtons.forEach(b => b.classList.add('bg-gray-300', 'text-gray-700'));
+        btn.classList.add('bg-blue-600', 'text-white');
+        btn.classList.remove('bg-gray-300', 'text-gray-700');
+
+        const tab = btn.dataset.tab;
+        tabContents.forEach(tc => tc.classList.add('hidden'));
+        document.getElementById(`tab-${tab}`).classList.remove('hidden');
+      });
+    });
+
+    // Initialize tabs default (products)
+    window.addEventListener('load', () => {
+      tabButtons.forEach(b => b.classList.remove('bg-blue-600', 'text-white'));
+      tabButtons.forEach(b => b.classList.add('bg-gray-300', 'text-gray-700'));
+      tabButtons[0].classList.add('bg-blue-600', 'text-white');
+      tabButtons[0].classList.remove('bg-gray-300', 'text-gray-700');
+
+      tabContents.forEach(tc => tc.classList.add('hidden'));
+      document.getElementById('tab-products').classList.remove('hidden');
+    });
+
+  </script>
+
+</body>
+</html>

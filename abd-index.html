@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Abdillah Technojia Tools Store</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body class="bg-gray-100">
+  <header class="bg-blue-600 text-white text-center text-3xl font-bold py-6">
+    Abdillah Technojia Tools Store
+  </header>
+
+  <div class="auth bg-blue-100 flex justify-between p-4">
+    <div>
+      <input id="username" class="p-2 mr-2" placeholder="Jina lako" />
+      <input id="password" type="password" class="p-2 mr-2" placeholder="Nenosiri" />
+      <button onclick="loginUser()" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Ingia</button>
+      <button onclick="signupUser()" class="bg-green-500 text-white px-4 py-2 rounded">Jisajili</button>
+    </div>
+    <a href="cart.html" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">🛒 Tazama Kikapu</a>
+  </div>
+
+  <div class="text-center mt-6">
+    <button onclick="connectToFirebase()" class="bg-blue-600 text-white px-5 py-3 rounded-xl hover:bg-blue-700">
+      Unganisha na Firebase
+    </button>
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="technolia-main.html">
+      <button class="bg-purple-700 hover:bg-purple-800 text-white px-6 py-3 rounded-xl">
+        Fungua Technolia Main
+      </button>
+    </a>
+  </div>
+
+  <main class="max-w-6xl mx-auto mt-10 p-4 bg-white rounded shadow">
+    <h2 class="text-center text-2xl font-semibold mb-6">Tuma Ujumbe kwa Admin</h2>
+    <div class="mb-6">
+      <input id="client-message" class="w-full border border-gray-300 p-3 rounded" placeholder="Andika ujumbe hapa..." />
+      <button onclick="sendMessageToAdmin()" class="mt-3 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
+        Tuma Ujumbe
+      </button>
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="account-settings.html">
+        <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-xl">
+          Fungua Settings
+        </button>
+      </a>
+    </div>
+
+    <div class="text-center mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <a href="about.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">ℹ️ Kuhusu Sisi</a>
+      <a href="tool.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🛠️ Tool</a>
+      <a href="shop.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🛒 Duka</a>
+      <a href="contact.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">✉️ Wasiliana</a>
+      <a href="account-settings.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">⚙️ Akaunti</a>
+      <a href="smart-download.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">⬇️ Smart Download</a>
+      <a href="save-customer.php" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">📁 Hifadhi Mteja</a>
+      <a href="register.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🧾 Sajili Mteja</a>
+      <a href="help.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🆘 Msaada</a>
+      <a href="ai-code-analyzer.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">💻 AI Code Analyzer</a>
+      <a href="cyber-security-pro-suite.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🔐 Cyber Security Pro Suite</a>
+      <a href="digital-marketing-suite.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">📈 Digital Marketing Suite</a>
+      <a href="launch_tool.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🚀 Zindua Tool Mpya</a>
+      <a href="pdf-protector-pro.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🛡️ PDF Protector Pro</a>
+      <a href="tools/ai-chatbot-pro/index.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🤖 Smart AI Chatbot Pro</a>
+    </div>
+  </main>
+
+  <h2 class="text-center text-xl font-bold mb-4 mt-10">Zana Zinazopatikana</h2>
+  <div id="toolsList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="text-lg font-bold">🔐 Ultimate Data Encryptor</h3>
+      <p class="text-gray-600">Zana ya hali ya juu kwa kusimba na kufungua data zako kwa usalama wa hali ya juu.</p>
+      <p class="mt-2 font-semibold text-green-600">Bei: TZS 25,000</p>
+      <a href="ultimate-data-encryptor.html" class="mt-3 inline-block bg-blue-600 hover:bg-blue-800 text-white px-4 py-2 rounded">Fungua Tool</a>
+      <button onclick="addToCart('Ultimate Data Encryptor', 25000)" class="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">Ongeza Kikapu</button>
+    </div>
+  </div>
+
+  <div class="max-w-4xl mx-auto p-4 mt-10 bg-white rounded shadow">
+    <h3 class="text-lg font-bold mb-4">🚀 Zindua Bidhaa Mpya</h3>
+    <form id="toolForm" class="bg-white p-4 rounded space-y-4 border">
+      <input id="toolName" type="text" placeholder="Jina la Tool" class="border p-2 w-full" required>
+      <input id="toolDesc" type="text" placeholder="Maelezo Mafupi" class="border p-2 w-full" required>
+      <input id="toolPrice" type="number" placeholder="Bei ya Tool (TZS)" class="border p-2 w-full" required>
+      <input id="toolImage" type="text" placeholder="Link ya Picha ya Tool (mf. static/images/tool1.jpg)" class="border p-2 w-full" required>
+      <input id="toolDownload" type="url" placeholder="Link ya Download au Preview Demo" class="border p-2 w-full" required>
+      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Zindua Tool Hii</button>
+    </form>
+  </div>
+
+  <footer class="bg-gray-800 text-white text-center py-6 mt-10">
+    Haki zote zimehifadhiwa © 2025
+  </footer>
+
+  <script>
+    function connectToFirebase() {
+      alert("Imeunganishwa na Firebase (placeholder)");
+    }
+
+    function signupUser() {
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+      localStorage.setItem(u, p);
+      alert('Usajili umefanikiwa');
+    }
+
+    function loginUser() {
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+      const saved = localStorage.getItem(u);
+      if(saved && saved === p) {
+        alert('Karibu ' + u);
+      } else {
+        alert('Taarifa sio sahihi');
+      }
+    }
+
+    function sendMessageToAdmin() {
+      const msg = document.getElementById('client-message').value.trim();
+      if (!msg) {
+        alert('Tafadhali andika ujumbe.');
+        return;
+      }
+      let msgs = JSON.parse(localStorage.getItem('adminMessages')) || [];
+      msgs.push({ text: msg, date: new Date().toLocaleString() });
+      localStorage.setItem('adminMessages', JSON.stringify(msgs));
+      alert('Ujumbe umetumwa kwa Admin');
+      document.getElementById('client-message').value = '';
+    }
+  </script>
+
+  <script src="static/js/project-management.js"></script>
+  <script src="static/js/shopping-cart.js"></script>
+  <script src="static/js/PriceSniperPro.js"></script>
+  <script src="static/js/product-launcher.js"></script>
+  <script src="static/js/auto-marketer-ai.js"></script>
+  <script src="static/js/submit_tool.js"></script>
+  <script src="static/js/tools_list.js"></script>
+</body>
+</html>

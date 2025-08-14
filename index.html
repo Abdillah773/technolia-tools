@@ -3,144 +3,512 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Abdillah Technojia Tools Store</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <title>Abdillah Technojia Tools Store - Firebase Edition</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 </head>
-<body class="bg-gray-100">
-  <header class="bg-blue-600 text-white text-center text-3xl font-bold py-6">
-    Abdillah Technojia Tools Store
-  </header>
+<body class="bg-gray-100 min-h-screen flex flex-col">
 
-  <div class="auth bg-blue-100 flex justify-between p-4">
-    <div>
-      <input id="username" class="p-2 mr-2" placeholder="Jina lako" />
-      <input id="password" type="password" class="p-2 mr-2" placeholder="Nenosiri" />
-      <button onclick="loginUser()" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Ingia</button>
-      <button onclick="signupUser()" class="bg-green-500 text-white px-4 py-2 rounded">Jisajili</button>
-    </div>
-    <a href="cart.html" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">🛒 Tazama Kikapu</a>
+<header class="bg-blue-700 text-white py-5 shadow-md">
+  <div class="container mx-auto px-4 flex justify-between items-center">
+    <h1 class="text-3xl font-bold tracking-wide">Abdillah Technojia Tools Store</h1>
+    <nav class="space-x-6">
+      <button id="btnShowLogin" class="bg-white text-blue-700 px-4 py-2 rounded hover:bg-gray-100 font-semibold">Ingia</button>
+      <button id="btnShowRegister" class="bg-green-600 px-4 py-2 rounded hover:bg-green-700 font-semibold">Jisajili</button>
+      <button id="btnLogout" class="hidden bg-red-600 px-4 py-2 rounded hover:bg-red-700 font-semibold">Toka</button>
+    </nav>
   </div>
+</header>
 
-  <div class="text-center mt-6">
-    <button onclick="connectToFirebase()" class="bg-blue-600 text-white px-5 py-3 rounded-xl hover:bg-blue-700">
-      Unganisha na Firebase
-    </button>
-  </div>
+<main class="flex-grow container mx-auto px-4 py-8 max-w-7xl">
 
-  <div class="text-center mt-4">
-    <a href="technolia-main.html">
-      <button class="bg-purple-700 hover:bg-purple-800 text-white px-6 py-3 rounded-xl">
-        Fungua Technolia Main
-      </button>
-    </a>
-  </div>
+  <!-- AUTH FORMS -->
+  <section id="authSection" class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-8">
 
-  <main class="max-w-6xl mx-auto mt-10 p-4 bg-white rounded shadow">
-    <h2 class="text-center text-2xl font-semibold mb-6">Tuma Ujumbe kwa Admin</h2>
-    <div class="mb-6">
-      <input id="client-message" class="w-full border border-gray-300 p-3 rounded" placeholder="Andika ujumbe hapa..." />
-      <button onclick="sendMessageToAdmin()" class="mt-3 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
-        Tuma Ujumbe
-      </button>
-    </div>
-
-    <div class="text-center mt-4">
-      <a href="account-settings.html">
-        <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-xl">
-          Fungua Settings
-        </button>
-      </a>
-    </div>
-
-    <div class="text-center mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      <a href="about.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">ℹ️ Kuhusu Sisi</a>
-      <a href="tool.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🛠️ Tool</a>
-      <a href="shop.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🛒 Duka</a>
-      <a href="contact.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">✉️ Wasiliana</a>
-      <a href="account-settings.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">⚙️ Akaunti</a>
-      <a href="smart-download.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">⬇️ Smart Download</a>
-      <a href="save-customer.php" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">📁 Hifadhi Mteja</a>
-      <a href="register.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🧾 Sajili Mteja</a>
-      <a href="help.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🆘 Msaada</a>
-      <a href="ai-code-analyzer.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">💻 AI Code Analyzer</a>
-      <a href="cyber-security-pro-suite.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🔐 Cyber Security Pro Suite</a>
-      <a href="digital-marketing-suite.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">📈 Digital Marketing Suite</a>
-      <a href="launch_tool.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🚀 Zindua Tool Mpya</a>
-      <a href="pdf-protector-pro.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🛡️ PDF Protector Pro</a>
-      <a href="tools/ai-chatbot-pro/index.html" class="bg-gray-200 hover:bg-gray-300 text-center py-3 rounded">🤖 Smart AI Chatbot Pro</a>
-    </div>
-  </main>
-
-  <h2 class="text-center text-xl font-bold mb-4 mt-10">Zana Zinazopatikana</h2>
-  <div id="toolsList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
-    <div class="bg-white p-4 rounded shadow">
-      <h3 class="text-lg font-bold">🔐 Ultimate Data Encryptor</h3>
-      <p class="text-gray-600">Zana ya hali ya juu kwa kusimba na kufungua data zako kwa usalama wa hali ya juu.</p>
-      <p class="mt-2 font-semibold text-green-600">Bei: TZS 25,000</p>
-      <a href="ultimate-data-encryptor.html" class="mt-3 inline-block bg-blue-600 hover:bg-blue-800 text-white px-4 py-2 rounded">Fungua Tool</a>
-      <button onclick="addToCart('Ultimate Data Encryptor', 25000)" class="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">Ongeza Kikapu</button>
-    </div>
-  </div>
-
-  <div class="max-w-4xl mx-auto p-4 mt-10 bg-white rounded shadow">
-    <h3 class="text-lg font-bold mb-4">🚀 Zindua Bidhaa Mpya</h3>
-    <form id="toolForm" class="bg-white p-4 rounded space-y-4 border">
-      <input id="toolName" type="text" placeholder="Jina la Tool" class="border p-2 w-full" required>
-      <input id="toolDesc" type="text" placeholder="Maelezo Mafupi" class="border p-2 w-full" required>
-      <input id="toolPrice" type="number" placeholder="Bei ya Tool (TZS)" class="border p-2 w-full" required>
-      <input id="toolImage" type="text" placeholder="Link ya Picha ya Tool (mf. static/images/tool1.jpg)" class="border p-2 w-full" required>
-      <input id="toolDownload" type="url" placeholder="Link ya Download au Preview Demo" class="border p-2 w-full" required>
-      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Zindua Tool Hii</button>
+    <!-- LOGIN FORM -->
+    <form id="loginForm" class="space-y-6" style="display:none;">
+      <h2 class="text-2xl font-bold mb-4 text-center text-blue-700">Ingia Kwenye Akaunti</h2>
+      <input id="loginEmail" type="email" placeholder="Barua pepe" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+      <input id="loginPassword" type="password" placeholder="Nenosiri" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+      <button type="submit" class="w-full bg-blue-700 text-white py-3 rounded font-semibold hover:bg-blue-800">Ingia</button>
+      <p class="mt-4 text-center text-gray-500 text-sm">Huna akaunti? <button id="showRegisterBtn" type="button" class="text-green-600 hover:underline">Jisajili hapa</button></p>
     </form>
-  </div>
 
-  <footer class="bg-gray-800 text-white text-center py-6 mt-10">
-    Haki zote zimehifadhiwa © 2025
-  </footer>
+    <!-- REGISTER FORM -->
+    <form id="registerForm" class="space-y-6" style="display:none;">
+      <h2 class="text-2xl font-bold mb-4 text-center text-green-600">Jisajili Kuwa Mtumiaji</h2>
+      <input id="registerEmail" type="email" placeholder="Barua pepe" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required />
+      <input id="registerPassword" type="password" placeholder="Nenosiri" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required />
+      <input id="registerPasswordConfirm" type="password" placeholder="Thibitisha nenosiri" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500" required />
+      <button type="submit" class="w-full bg-green-600 text-white py-3 rounded font-semibold hover:bg-green-700">Jisajili</button>
+      <p class="mt-4 text-center text-gray-500 text-sm">Umewahi kuwa na akaunti? <button id="showLoginBtn" type="button" class="text-blue-700 hover:underline">Ingia hapa</button></p>
+    </form>
 
-  <script>
-    function connectToFirebase() {
-      alert("Imeunganishwa na Firebase (placeholder)");
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboardSection" class="hidden mt-12">
+
+    <h2 class="text-3xl font-bold mb-8 text-center text-blue-700">Paneli ya Usimamizi - Karibu, <span id="userDisplayEmail"></span></h2>
+
+    <div class="flex justify-center mb-6 space-x-4 flex-wrap">
+      <button class="tabBtn bg-blue-600 text-white px-6 py-2 rounded font-semibold" data-tab="products">Bidhaa & Tools</button>
+      <button class="tabBtn bg-gray-300 text-gray-700 px-6 py-2 rounded font-semibold" data-tab="orders">Maagizo</button>
+      <button class="tabBtn bg-gray-300 text-gray-700 px-6 py-2 rounded font-semibold" data-tab="stats">Takwimu</button>
+      <button class="tabBtn bg-gray-300 text-gray-700 px-6 py-2 rounded font-semibold" data-tab="messages">Ujumbe kwa Admin</button>
+      <button class="tabBtn bg-gray-300 text-gray-700 px-6 py-2 rounded font-semibold" data-tab="settings">Mipangilio</button>
+    </div>
+
+    <!-- TAB CONTENTS -->
+    <div>
+
+      <!-- Products Tab -->
+      <div id="tab-products" class="tabContent">
+        <div class="max-w-6xl mx-auto bg-white rounded shadow p-6">
+          <h3 class="text-xl font-bold mb-4">Bidhaa na Tools Zilizopo</h3>
+          <div id="productsList" class="grid grid-cols-1 md:grid-cols-3 gap-6 overflow-y-auto max-h-[320px] mb-6 border border-gray-200 rounded p-4 bg-gray-50"></div>
+          <h4 class="text-lg font-semibold mb-3">Ongeza Tool Mpya</h4>
+          <form id="addProductForm" class="space-y-4">
+            <input type="text" id="productName" placeholder="Jina la Tool" class="w-full border border-gray-300 rounded px-3 py-2" required />
+            <textarea id="productDesc" placeholder="Maelezo Mafupi" class="w-full border border-gray-300 rounded px-3 py-2" rows="3" required></textarea>
+            <input type="number" id="productPrice" placeholder="Bei (TZS)" class="w-full border border-gray-300 rounded px-3 py-2" required />
+            <input type="url" id="productImage" placeholder="Link ya Picha (mf. https://...)" class="w-full border border-gray-300 rounded px-3 py-2" required />
+            <input type="url" id="productDownload" placeholder="Link ya Download au Demo" class="w-full border border-gray-300 rounded px-3 py-2" required />
+            <button type="submit" class="bg-green-600 text-white py-3 rounded w-full hover:bg-green-700 font-semibold">Ongeza Tool</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Orders Tab -->
+      <div id="tab-orders" class="tabContent hidden">
+        <div class="max-w-6xl mx-auto bg-white rounded shadow p-6">
+          <h3 class="text-xl font-bold mb-4">Maagizo ya Wateja</h3>
+          <div id="ordersList" class="overflow-auto max-h-[320px] border border-gray-200 rounded p-4 bg-gray-50"></div>
+        </div>
+      </div>
+
+      <!-- Stats Tab -->
+      <div id="tab-stats" class="tabContent hidden">
+        <div class="max-w-6xl mx-auto bg-white rounded shadow p-6">
+          <h3 class="text-xl font-bold mb-4">Takwimu na Matokeo</h3>
+          <div id="statsContent" class="text-gray-700 space-y-4">
+            <p><strong>Jumla ya Bidhaa:</strong> <span id="totalProducts">0</span></p>
+            <p><strong>Jumla ya Maagizo:</strong> <span id="totalOrders">0</span></p>
+            <p><strong>Mapato Yaliyopatikana (TZS):</strong> <span id="totalRevenue">0</span></p>
+            <p><strong>Bidhaa Maarufu:</strong> <span id="mostPopularProduct">Hakuna bado</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Messages Tab -->
+      <div id="tab-messages" class="tabContent hidden">
+        <div class="max-w-6xl mx-auto bg-white rounded shadow p-6">
+          <h3 class="text-xl font-bold mb-4">Ujumbe wa Watumiaji kwa Admin</h3>
+          <form id="sendMessageForm" class="mb-4">
+            <textarea id="messageText" placeholder="Andika ujumbe hapa..." class="w-full border border-gray-300 rounded p-2" rows="3" required></textarea>
+            <button type="submit" class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 font-semibold">Tuma Ujumbe</button>
+          </form>
+          <div id="messagesList" class="overflow-auto max-h-[320px] border border-gray-200 rounded p-4 bg-gray-50"></div>
+        </div>
+      </div>
+
+      <!-- Settings Tab -->
+      <div id="tab-settings" class="tabContent hidden">
+        <div class="max-w-6xl mx-auto bg-white rounded shadow p-6 max-w-md">
+          <h3 class="text-xl font-bold mb-4">Mipangilio ya Akaunti</h3>
+          <form id="settingsForm" class="space-y-4">
+            <label class="block font-semibold" for="changePassword">Badilisha Nenosiri</label>
+            <input type="password" id="changePassword" placeholder="Nenosiri jipya" class="w-full border border-gray-300 rounded px-3 py-2" />
+            <input type="password" id="changePasswordConfirm" placeholder="Thibitisha nenosiri jipya" class="w-full border border-gray-300 rounded px-3 py-2" />
+            <button type="submit" class="bg-blue-600 text-white py-3 rounded hover:bg-blue-700 font-semibold">Hifadhi Mipangilio</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="bg-gray-800 text-white text-center py-6 mt-auto">
+  &copy; 2025 Abdillah Technojia Tools Store. Haki zote zimehifadhiwa.
+</footer>
+
+<script>
+  // Firebase config - Badilisha hapa na yawe yako mwenyewe
+  const firebaseConfig = {
+    apiKey: "AIzaSyAQaxla9NKGizC_NhkeFkiu3oSOajDARgA",
+    authDomain: "abdillah-technojia-tools-store.firebaseapp.com",
+    projectId: "abdillah-technojia-tools-store",
+    storageBucket: "abdillah-technojia-tools-store.appspot.com",
+    messagingSenderId: "633206938380",
+    appId: "1:633206938380:web:a558e970a76d2dc89c0729",
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+  // ELEMENTS
+  const btnShowLogin = document.getElementById('btnShowLogin');
+  const btnShowRegister = document.getElementById('btnShowRegister');
+  const btnLogout = document.getElementById('btnLogout');
+  const authSection = document.getElementById('authSection');
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const dashboardSection = document.getElementById('dashboardSection');
+  const userDisplayEmail = document.getElementById('userDisplayEmail');
+
+  // Show/Hide Auth forms
+  const showLoginForm = () => {
+    loginForm.style.display = 'block';
+    registerForm.style.display = 'none';
+    btnShowLogin.style.display = 'none';
+    btnShowRegister.style.display = 'inline-block';
+  };
+  const showRegisterForm = () => {
+    loginForm.style.display = 'none';
+    registerForm.style.display = 'block';
+    btnShowLogin.style.display = 'inline-block';
+    btnShowRegister.style.display = 'none';
+  };
+
+  btnShowLogin.addEventListener('click', showLoginForm);
+  btnShowRegister.addEventListener('click', showRegisterForm);
+
+  document.getElementById('showRegisterBtn').addEventListener('click', showRegisterForm);
+  document.getElementById('showLoginBtn').addEventListener('click', showLoginForm);
+
+  // Auth state change
+  auth.onAuthStateChanged(user => {
+    if(user){
+      authSection.style.display = 'none';
+      dashboardSection.style.display = 'block';
+      userDisplayEmail.textContent = user.email;
+      btnLogout.style.display = 'inline-block';
+      btnShowLogin.style.display = 'none';
+      btnShowRegister.style.display = 'none';
+      loadDashboardData();
+    } else {
+      authSection.style.display = 'block';
+      dashboardSection.style.display = 'none';
+      btnLogout.style.display = 'none';
+      btnShowLogin.style.display = 'inline-block';
+      btnShowRegister.style.display = 'inline-block';
+    }
+  });
+
+  btnLogout.addEventListener('click', () => {
+    auth.signOut();
+  });
+
+  // Register form submit
+  registerForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = document.getElementById('registerEmail').value.trim();
+    const pass = document.getElementById('registerPassword').value;
+    const passConfirm = document.getElementById('registerPasswordConfirm').value;
+    if(pass !== passConfirm){
+      alert('Nenosiri halifanani');
+      return;
+    }
+    if(pass.length < 6){
+      alert('Nenosiri lazima liwe na herufi 6 au zaidi');
+      return;
+    }
+    try {
+      const userCredential = await auth.createUserWithEmailAndPassword(email, pass);
+      // Create user doc in Firestore
+      await db.collection('users').doc(userCredential.user.uid).set({
+        email: email,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        orders: [],
+        messages: [],
+      });
+      alert('Usajili umefanikiwa. Karibu!');
+      registerForm.reset();
+    } catch(error) {
+      alert('Hitilafu: ' + error.message);
+    }
+  });
+
+  // Login form submit
+  loginForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass = document.getElementById('loginPassword').value;
+    try {
+      await auth.signInWithEmailAndPassword(email, pass);
+      loginForm.reset();
+    } catch(error) {
+      alert('Hitilafu: ' + error.message);
+    }
+  });
+
+  // PRODUCTS MANAGEMENT
+
+  const productsListEl = document.getElementById('productsList');
+  const addProductForm = document.getElementById('addProductForm');
+
+  async function loadProducts(){
+    productsListEl.innerHTML = '<p class="text-center py-8">Inapakia bidhaa...</p>';
+    const snapshot = await db.collection('products').orderBy('createdAt', 'desc').get();
+    if(snapshot.empty){
+      productsListEl.innerHTML = '<p class="text-center text-gray-500">Hakuna bidhaa zilizopo.</p>';
+      return;
+    }
+    let html = '';
+    snapshot.forEach(doc => {
+      const p = doc.data();
+      html += `
+        <div class="bg-white rounded shadow p-4 border border-gray-200">
+          <img src="${p.image}" alt="${p.name}" class="w-full h-40 object-cover rounded mb-3" />
+          <h4 class="font-semibold text-lg">${p.name}</h4>
+          <p class="text-gray-600 mb-2">${p.description}</p>
+          <p class="font-bold text-green-600 mb-3">TZS ${p.price.toLocaleString()}</p>
+          <div class="flex space-x-2">
+            <a href="${p.downloadLink}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Pakua / Demo</a>
+            <button onclick="deleteProduct('${doc.id}')" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Futa</button>
+          </div>
+        </div>
+      `;
+    });
+    productsListEl.innerHTML = html;
+  }
+
+  addProductForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const name = document.getElementById('productName').value.trim();
+    const description = document.getElementById('productDesc').value.trim();
+    const price = Number(document.getElementById('productPrice').value);
+    const image = document.getElementById('productImage').value.trim();
+    const downloadLink = document.getElementById('productDownload').value.trim();
+
+    if(!name || !description || !price || !image || !downloadLink){
+      alert('Tafadhali jaza taarifa zote.');
+      return;
     }
 
-    function signupUser() {
-      const u = document.getElementById('username').value;
-      const p = document.getElementById('password').value;
-      localStorage.setItem(u, p);
-      alert('Usajili umefanikiwa');
+    try {
+      await db.collection('products').add({
+        name,
+        description,
+        price,
+        image,
+        downloadLink,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      addProductForm.reset();
+      alert('Tool imeongezwa kwa mafanikio!');
+      loadProducts();
+    } catch(error) {
+      alert('Hitilafu: ' + error.message);
     }
+  });
 
-    function loginUser() {
-      const u = document.getElementById('username').value;
-      const p = document.getElementById('password').value;
-      const saved = localStorage.getItem(u);
-      if(saved && saved === p) {
-        alert('Karibu ' + u);
-      } else {
-        alert('Taarifa sio sahihi');
+  async function deleteProduct(id){
+    if(confirm('Unataka kufuta tool hii?')){
+      try {
+        await db.collection('products').doc(id).delete();
+        alert('Tool imetolewa.');
+        loadProducts();
+      } catch(error) {
+        alert('Hitilafu: ' + error.message);
       }
     }
+  }
 
-    function sendMessageToAdmin() {
-      const msg = document.getElementById('client-message').value.trim();
-      if (!msg) {
-        alert('Tafadhali andika ujumbe.');
-        return;
+  // ORDERS MANAGEMENT
+  const ordersListEl = document.getElementById('ordersList');
+
+  async function loadOrders(){
+    ordersListEl.innerHTML = '<p class="text-center py-8">Inapakia maagizo...</p>';
+    const usersSnapshot = await db.collection('users').get();
+    if(usersSnapshot.empty){
+      ordersListEl.innerHTML = '<p class="text-center text-gray-500">Hakuna maagizo yoyote.</p>';
+      return;
+    }
+    let ordersHTML = '';
+    for(const userDoc of usersSnapshot.docs){
+      const userData = userDoc.data();
+      const orders = userData.orders || [];
+      orders.forEach(order => {
+        ordersHTML += `
+          <div class="border border-gray-300 rounded p-3 mb-3 bg-white">
+            <p><strong>Mteja:</strong> ${userData.email || '--'}</p>
+            <p><strong>Tool:</strong> ${order.name}</p>
+            <p><strong>Kiasi:</strong> ${order.quantity}</p>
+            <p><strong>Tarehe:</strong> ${order.date}</p>
+          </div>
+        `;
+      });
+    }
+    ordersListEl.innerHTML = ordersHTML || '<p class="text-center text-gray-500">Hakuna maagizo yoyote.</p>';
+    updateStats();
+  }
+
+  // STATS MANAGEMENT
+  const totalProductsEl = document.getElementById('totalProducts');
+  const totalOrdersEl = document.getElementById('totalOrders');
+  const totalRevenueEl = document.getElementById('totalRevenue');
+  const mostPopularProductEl = document.getElementById('mostPopularProduct');
+
+  async function updateStats(){
+    const productsSnap = await db.collection('products').get();
+    const usersSnap = await db.collection('users').get();
+
+    const productsCount = productsSnap.size;
+    let totalOrders = 0;
+    let totalRevenue = 0;
+    let productSales = {};
+
+    usersSnap.forEach(userDoc => {
+      const user = userDoc.data();
+      const orders = user.orders || [];
+      orders.forEach(order => {
+        totalOrders += order.quantity;
+        totalRevenue += order.quantity * order.price;
+        if(productSales[order.name]){
+          productSales[order.name] += order.quantity;
+        } else {
+          productSales[order.name] = order.quantity;
+        }
+      });
+    });
+
+    totalProductsEl.textContent = productsCount;
+    totalOrdersEl.textContent = totalOrders;
+    totalRevenueEl.textContent = totalRevenue.toLocaleString();
+
+    // Most popular product
+    let popular = 'Hakuna bado';
+    let max = 0;
+    for(const p in productSales){
+      if(productSales[p] > max){
+        max = productSales[p];
+        popular = p;
       }
-      let msgs = JSON.parse(localStorage.getItem('adminMessages')) || [];
-      msgs.push({ text: msg, date: new Date().toLocaleString() });
-      localStorage.setItem('adminMessages', JSON.stringify(msgs));
+    }
+    mostPopularProductEl.textContent = popular;
+  }
+
+  // MESSAGES MANAGEMENT
+  const messagesListEl = document.getElementById('messagesList');
+  const sendMessageForm = document.getElementById('sendMessageForm');
+
+  sendMessageForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const msg = document.getElementById('messageText').value.trim();
+    if(msg.length < 3){
+      alert('Ujumbe lazima uwe na herufi zaidi ya 2');
+      return;
+    }
+    const user = auth.currentUser;
+    if(!user){
+      alert('Tafadhali ingia kwanza');
+      return;
+    }
+    try {
+      // Save message to user doc
+      const userDocRef = db.collection('users').doc(user.uid);
+      const userDoc = await userDocRef.get();
+      const userData = userDoc.data() || {};
+      const messages = userData.messages || [];
+      messages.push({ text: msg, date: new Date().toLocaleString() });
+      await userDocRef.update({ messages });
       alert('Ujumbe umetumwa kwa Admin');
-      document.getElementById('client-message').value = '';
+      sendMessageForm.reset();
+      loadMessages();
+    } catch(error){
+      alert('Hitilafu: ' + error.message);
     }
-  </script>
+  });
 
-  <script src="static/js/project-management.js"></script>
-  <script src="static/js/shopping-cart.js"></script>
-  <script src="static/js/PriceSniperPro.js"></script>
-  <script src="static/js/product-launcher.js"></script>
-  <script src="static/js/auto-marketer-ai.js"></script>
-  <script src="static/js/submit_tool.js"></script>
-  <script src="static/js/tools_list.js"></script>
+  async function loadMessages(){
+    messagesListEl.innerHTML = '<p class="text-center py-8">Inapakia ujumbe...</p>';
+    const usersSnap = await db.collection('users').get();
+    if(usersSnap.empty){
+      messagesListEl.innerHTML = '<p class="text-center text-gray-500">Hakuna ujumbe wowote.</p>';
+      return;
+    }
+    let html = '';
+    usersSnap.forEach(userDoc => {
+      const user = userDoc.data();
+      const userMessages = user.messages || [];
+      userMessages.forEach(m => {
+        html += `
+          <div class="border border-gray-300 rounded p-3 mb-3 bg-white">
+            <p><strong>${user.email || 'Mtumiaji'}:</strong> ${m.text}</p>
+            <p class="text-xs text-gray-500">${m.date}</p>
+          </div>
+        `;
+      });
+    });
+    messagesListEl.innerHTML = html || '<p class="text-center text-gray-500">Hakuna ujumbe wowote.</p>';
+  }
+
+  // SETTINGS MANAGEMENT (Change password)
+  const settingsForm = document.getElementById('settingsForm');
+  settingsForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const pass1 = document.getElementById('changePassword').value;
+    const pass2 = document.getElementById('changePasswordConfirm').value;
+    if(pass1 !== pass2){
+      alert('Nenosiri halifanani');
+      return;
+    }
+    if(pass1.length < 6){
+      alert('Nenosiri lazima liwe na angalau herufi 6');
+      return;
+    }
+    try {
+      const user = auth.currentUser;
+      if(!user) return alert('Tafadhali ingia kwanza');
+      await user.updatePassword(pass1);
+      alert('Nenosiri limebadilishwa kwa mafanikio');
+      settingsForm.reset();
+    } catch(error) {
+      alert('Hitilafu: ' + error.message);
+    }
+  });
+
+  // DASHBOARD DATA LOADING
+  async function loadDashboardData(){
+    await loadProducts();
+    await loadOrders();
+    await loadMessages();
+    await updateStats();
+  }
+
+  // TAB SWITCHING
+  const tabButtons = document.querySelectorAll('.tabBtn');
+  const tabContents = document.querySelectorAll('.tabContent');
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabButtons.forEach(b => {
+        b.classList.remove('bg-blue-600', 'text-white');
+        b.classList.add('bg-gray-300', 'text-gray-700');
+      });
+      btn.classList.add('bg-blue-600');
+      btn.classList.add('text-white');
+
+      tabContents.forEach(tc => tc.classList.add('hidden'));
+      const tab = btn.dataset.tab;
+      document.getElementById('tab-'+tab).classList.remove('hidden');
+    });
+  });
+
+  // Default tab on load
+  window.addEventListener('load', () => {
+    if(auth.currentUser){
+      loadDashboardData();
+    }
+  });
+
+</script>
+
 </body>
 </html>
